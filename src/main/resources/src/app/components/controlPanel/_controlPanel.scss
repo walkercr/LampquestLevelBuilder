@@ -1,0 +1,87 @@
+.control-panel {
+	position: absolute;
+	width: $panel-width;
+	height: 100%;
+	top: 0;
+	left: $panel-toggle-size + ($panel-toggle-right * 2) - $panel-width;
+	background: $light-navy;
+	transition: left $toggle-speed;
+	body.toggle-open & {
+		left: 0;
+	}
+}
+
+.control-panel__header {
+	height: 50px;
+	background: $darker-navy;
+}
+
+.control-panel__toggle {
+	position: relative;
+	float: right;
+	top: 12.5px;
+	right: 10px;
+	height: $panel-toggle-size;
+	width: $panel-toggle-size;
+	border-radius: 50%;
+	background: $off-white;
+	text-align: center;
+	cursor: pointer;
+	transition: transform $toggle-speed .4s;
+	
+	&:before, &:after {
+		content: "";
+		position: absolute;
+		height: 45%;
+		width: 45%;
+		border: 5px solid $darker-navy;
+		transition: transform $toggle-speed .4s,
+					border-color $toggle-speed .4s;
+	}
+	
+	&:before {
+		top: 16%;
+		left: 40%;
+		border-top: 0;
+		border-right: 0;
+	}
+	
+	&:after {
+		top: 41%;
+		left: 15%;
+		border-bottom: 0;
+		border-left: 0;
+	}
+	
+	body.toggle-open & {
+		transform: rotate(135deg);
+		&:before {
+			transform: translate(-55%, 55%) rotate(180deg);
+			border-color: $light-red;
+		}
+		&:after {
+			transform: translate(55%, -55%) rotate(180deg);
+			border-color: $light-red;
+		}
+	}
+}
+
+.control-panel__body {
+	padding: 25px;
+	height: calc(100% - 50px);
+}
+
+/* @TODO: rename these */
+.items-container {
+	margin-bottom: 15px;
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.items-container__item {
+	@extend .grid__item;
+	&--draggable {
+		opacity: 0;
+	}
+}

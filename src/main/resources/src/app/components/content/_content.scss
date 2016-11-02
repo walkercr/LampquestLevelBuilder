@@ -1,0 +1,19 @@
+.content {
+	position: relative;
+	width: calc(100% - #{$panel-toggle-size} - (#{$panel-toggle-right} * 2));
+	height: 100%;
+	margin-left: $panel-toggle-size + ($panel-toggle-right * 2);
+	transition: width $toggle-speed, 
+				margin $toggle-speed;
+	body.toggle-open & {
+		width: calc(100% - 200px);
+		margin-left: $panel-width;
+	}
+}
+
+.content__header {
+	width: 100%;
+	height: $header-height;
+	background: $light-red;
+	box-shadow: 0 50px $dark-red inset;
+}

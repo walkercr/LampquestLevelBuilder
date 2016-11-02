@@ -1,14 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import Content from './components/content.jsx'
+import ControlPanel from './components/controlPanel/controlPanel.jsx'
+import Content from './components/content/content.jsx'
 
-import '../sass/styles.scss'
+import '../scss/styles.scss'
 
 class Main extends React.Component {
 	render() {
 		return (
 			<section>
+		        <ControlPanel />
 				<Content />
 			</section>
 		);

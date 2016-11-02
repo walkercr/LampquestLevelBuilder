@@ -1,0 +1,69 @@
+.grid {
+	padding: 50px;
+	height: calc(100% - #{$header-height});
+}
+
+.grid__wrapper {
+    overflow: hidden;
+	margin: auto;
+	text-align: center;
+	height: 100%;
+}
+
+.grid__container {
+	overflow: visible;
+	position: relative;
+	display: inline-block;
+	padding: 0;
+	background: $darker-navy;
+}
+
+.grid__row {
+	// set height so that border does not append to row's
+	// size.
+	height: $cell-size;
+	// remove vertical spacing added by inline-block in
+	// children cells so there is no space between each
+	// row.
+	white-space: nowrap;
+	line-height: 0;
+	&:last-child {
+		.grid__cell {
+			border-bottom: 1px $gridline-color;
+		}
+	}
+}
+
+.grid__cell {
+	width: $cell-size;
+    height: $cell-size;
+    position: relative;
+	display: inline-block;
+	border-top: 1px solid $gridline-color;
+	border-left: 1px solid $gridline-color;
+	&:last-child {
+		border-right: 1px solid $gridline-color;
+	}
+	padding: 0;
+}
+
+.grid__item {
+	position: absolute;
+    background: rgba($light-red, 0.6);
+	text-align: center;
+    font-family: monospace;
+    font-size: 18px;
+    border: 1px solid #ffffff;
+    color: $off-white;
+	z-index: 1;
+	opacity: 1;
+	transition: box-shadow .3s ease-in,
+				background .3s ease-in;
+	&--right-clicked {
+		box-shadow: -5px 0px 6px rgba(0,0,0,0.25), 
+					5px 0px 6px rgba(0,0,0,0.25), 
+					0px 6px 6px rgba(0,0,0,0.25), 
+					0px -6px 6px rgba(0,0,0,0.25);
+		background: rgba($light-red, 0.85);
+	}
+}
