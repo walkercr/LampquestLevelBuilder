@@ -36,12 +36,11 @@ public class RoomsDao implements IRoomsDao {
      */
     @Override
     @Transactional
+    @SuppressWarnings("unchecked")
     public List<Room> getAllRooms() {
-        @SuppressWarnings("unchecked")
-        List<Room> rooms = sessionFactory.getCurrentSession()
+        return sessionFactory.getCurrentSession()
                 .createCriteria(Room.class)
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
                 .list();
-        return rooms;
     }
 }

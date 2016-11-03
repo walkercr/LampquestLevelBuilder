@@ -1,6 +1,13 @@
 package lampquest.dao;
 
+import lampquest.model.RoomLevel;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.ResultTransformer;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Data access object implementation for the RoomsLevels table.
@@ -23,5 +30,25 @@ public class RoomsLevelsDao implements IRoomsLevelsDao {
      */
     public RoomsLevelsDao(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    /**
+     * Returns a list of all RoomsLevels rows containing the given dungeon id.
+     *
+     * @param dungeonId dungeon id of rows to be retrieved
+     *
+     * @return a list of all RoomsLevels rows containing the given dungeon id
+     */
+    @Override
+    @Transactional
+    @SuppressWarnings({"unchecked", "JpaQlInspection"})
+    public List<RoomLevel> getRoomsLevels(int dungeonId) {
+        return sessionFactory.getCurrentSession()
+                .createQuery(
+                        "select rl " +
+                        "from RoomLevel rl " +
+                        "where rl.dungeonId = :dungeonId"
+                ).setParameter("dungeonId", dungeonId)
+                .list();
     }
 }
