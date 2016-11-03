@@ -1,9 +1,6 @@
 package lampquest.dto;
 
-import lampquest.model.Room;
-
 import java.util.List;
-import java.util.SplittableRandom;
 
 public class DungeonLevelDto {
 
