@@ -75,7 +75,7 @@ public class DBConfig {
     
     @Bean
     public IPaletteService paletteService() throws IOException {
-        return new PaletteService(dungeonsDao(), roomsDao());
+        return new PaletteService(dungeonsDao(), roomsDao(), roomsLevelsDao());
     }
     
     @Bean IDungeonLevelService dungeonLevelService() {

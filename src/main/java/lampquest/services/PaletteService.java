@@ -2,6 +2,7 @@ package lampquest.services;
 
 import lampquest.dao.IDungeonsDao;
 import lampquest.dao.IRoomsDao;
+import lampquest.dao.IRoomsLevelsDao;
 import lampquest.dto.DungeonDto;
 import lampquest.dto.PaletteDto;
 import lampquest.exceptions.DungeonNotFoundException;
@@ -24,6 +25,10 @@ public class PaletteService implements IPaletteService {
      * Data access object for the Rooms table
      */
     private IRoomsDao roomsDao;
+    /**
+     * Data access object for the RoomsLevels table
+     */
+    private IRoomsLevelsDao roomsLevelsDao;
 
     /**
      * Creates a new palette service implementation with the given dungeons and
@@ -32,9 +37,11 @@ public class PaletteService implements IPaletteService {
      * @param dungeonsDao data access object for the Dungeons table
      * @param roomsDao data access object for the Rooms table
      */
-    public PaletteService(IDungeonsDao dungeonsDao, IRoomsDao roomsDao) {
+    public PaletteService(IDungeonsDao dungeonsDao, IRoomsDao roomsDao,
+                          IRoomsLevelsDao roomsLevelsDao) {
         this.dungeonsDao = dungeonsDao;
         this.roomsDao = roomsDao;
+        this.roomsLevelsDao = roomsLevelsDao;
     }
 
     /**
@@ -59,6 +66,8 @@ public class PaletteService implements IPaletteService {
         }
 
         // create and return the palette
-        return new PaletteDto(new DungeonDto(dungeon), roomsDao.getAllRooms());
+        return new PaletteDto(new DungeonDto(dungeon),
+                              roomsDao.getAllRooms(),
+                              roomsLevelsDao.getRoomsLevels(dungeonId));
     }
 }

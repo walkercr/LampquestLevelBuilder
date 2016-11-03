@@ -2,3 +2,7 @@
 /.gradle/
 /bin/
 /build/
+.idea/
+src/main/resources/build/
+src/main/resources/node_modules/
+*.log*
