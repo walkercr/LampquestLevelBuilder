@@ -4,6 +4,8 @@ import javax.sql.DataSource;
 
 import java.io.IOException;
 import java.util.Properties;
+
+import lampquest.model.Monster;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +38,10 @@ public class DBConfig {
         bean.setDataSource(dataSource());
         bean.setHibernateProperties(hibernateProperties());
         bean.setPackagesToScan("lampquest.model");
-        bean.setAnnotatedClasses(Dungeon.class, Room.class, RoomLevel.class);
+        bean.setAnnotatedClasses(Dungeon.class,
+                                 Room.class,
+                                 RoomLevel.class,
+                                 Monster.class);
         bean.afterPropertiesSet();
         return bean.getObject();        
     }
@@ -47,13 +52,14 @@ public class DBConfig {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/lampquest2_0");
         dataSource.setUsername("root");
-        dataSource.setPassword("CSI3335");
+        dataSource.setPassword("Caiden_14");
         return dataSource;
     }
     
     private static Properties hibernateProperties() {
         Properties props = new Properties();
-        props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        props.setProperty("hibernate.dialect",
+                          "org.hibernate.dialect.MySQL5Dialect");
         props.setProperty("hibernate.show_sql", "true");
         return props;
     }
@@ -72,13 +78,17 @@ public class DBConfig {
     public IRoomsLevelsDao roomsLevelsDao() throws IOException {
         return new RoomsLevelsDao(sessionFactory());
     }
-    
+
     @Bean
-    public IPaletteService paletteService() throws IOException {
-        return new PaletteService(dungeonsDao(), roomsDao(), roomsLevelsDao());
+    public IMonstersDao monstersDao() throws IOException {
+        return new MonstersDao(sessionFactory());
     }
     
-    @Bean IDungeonLevelService dungeonLevelService() {
-        return new DungeonLevelService();
+    @Bean
+    public ILampquestService lampquestService() throws IOException {
+        return new LampquestService(dungeonsDao(),
+                                  roomsDao(),
+                                  roomsLevelsDao(),
+                                  monstersDao());
     }
 }
