@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-import Grid from '../grid/grid.jsx'
+import DungeonGrid from '../dungeonGrid/dungeonGrid.jsx'
 import DeleteMenu from '../deleteMenu/deleteMenu.jsx'
 
 import Ajax from '../../ajax/ajax.jsx'
 
-export default class Content extends React.Component {
+export default class Content extends Component {
 
     state = {data: null, sessionData: null};
 
@@ -51,7 +51,7 @@ export default class Content extends React.Component {
         return (
             <section className="content">
                 <div className="content__header"></div>
-	            <Grid rows={rows} columns={cols} />
+	            <DungeonGrid rows={rows} columns={cols} />
 	            <DeleteMenu />
             </section>
 		);
