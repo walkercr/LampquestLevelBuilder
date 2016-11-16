@@ -28,7 +28,7 @@ export default class Content extends React.Component {
             if (status === 200) {
                 this.setState({sessionData: JSON.parse(response)});
             } else {
-                alert('error loading session data...');
+                console.warn('error loading session data...');
             }
         });
     }
@@ -45,13 +45,14 @@ export default class Content extends React.Component {
     }
 
     render() {
-		return (
-		    <section>
-                <section className="content">
-                    <div className="content__header"></div>
-		            <Grid />
-		            <DeleteMenu />
-                </section>
+		/* DUMMY PLACEHOLDER INITIALIZER VARS - REMOVE EVENTUALLY */
+        const rows = 100, cols = 100;
+        
+        return (
+            <section className="content">
+                <div className="content__header"></div>
+	            <Grid rows={rows} columns={cols} />
+	            <DeleteMenu />
             </section>
 		);
 	}

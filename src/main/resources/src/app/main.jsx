@@ -9,7 +9,7 @@ import '../scss/styles.scss'
 class Main extends React.Component {
 	render() {
 		return (
-			<section>
+			<section className="root">
 		        <ControlPanel />
 				<Content />
 			</section>
