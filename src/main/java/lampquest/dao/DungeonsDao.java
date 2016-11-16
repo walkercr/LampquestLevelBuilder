@@ -1,9 +1,12 @@
 package lampquest.dao;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import lampquest.model.Dungeon;
+
+import java.util.List;
 
 /**
  * Data access object implementation for the Dungeons table.
@@ -26,6 +29,21 @@ public class DungeonsDao implements IDungeonsDao {
      */
     public DungeonsDao(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    /**
+     * Returns a list of the dungeons in the database.
+     *
+     * @return list of dungeons in database
+     */
+    @Override
+    @Transactional
+    @SuppressWarnings("unchecked")
+    public List<Dungeon> getAllDungeons() {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(Dungeon.class)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+                .list();
     }
 
     /**

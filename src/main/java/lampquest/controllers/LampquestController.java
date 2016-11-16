@@ -2,6 +2,7 @@ package lampquest.controllers;
 
 import lampquest.dto.BulkDataDto;
 import lampquest.dto.DungeonLevelDto;
+import lampquest.dto.PageLoadDataDto;
 import lampquest.exceptions.DungeonNotFoundException;
 import lampquest.services.ILampquestService;
 import java.io.IOException;
@@ -26,6 +27,19 @@ public class LampquestController {
      */
     @Autowired
     private ILampquestService lampquestService;
+
+    /**
+     * Returns page load data needed to being a session.
+     *
+     * @return page load data needed to being a session
+     */
+    @RequestMapping(value = "/api/lampquest",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<PageLoadDataDto> getPageLoadData() {
+        PageLoadDataDto pageLoadData = lampquestService.getPageLoadData();
+        return new ResponseEntity<>(pageLoadData, HttpStatus.OK);
+    }
 
     /**
      * Returns bulk data for the given dungeon id.

@@ -3,6 +3,7 @@ package lampquest.services;
 import java.io.IOException;
 import lampquest.dto.DungeonLevelDto;
 import lampquest.dto.BulkDataDto;
+import lampquest.dto.PageLoadDataDto;
 import lampquest.exceptions.DungeonNotFoundException;
 
 /**
@@ -13,6 +14,14 @@ import lampquest.exceptions.DungeonNotFoundException;
  * @since 10/12/2016
  */
 public interface ILampquestService {
+
+    /**
+     * Returns a data transfer object containing all data needed to being a
+     * session.
+     *
+     * @return all data needed to begin a session
+     */
+    PageLoadDataDto getPageLoadData();
 
     /**
      * Returns bulk data for the specified dungeon id.

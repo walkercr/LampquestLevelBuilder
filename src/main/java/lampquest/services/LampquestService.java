@@ -2,6 +2,7 @@ package lampquest.services;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import lampquest.dao.IDungeonsDao;
 import lampquest.dao.IMonstersDao;
@@ -10,11 +11,14 @@ import lampquest.dao.IRoomsLevelsDao;
 import lampquest.dto.BulkDataDto;
 import lampquest.dto.DungeonLevelDto;
 import lampquest.dto.RoomDto;
+import lampquest.dto.PageLoadDataDto;
 import lampquest.exceptions.DungeonNotFoundException;
 import lampquest.model.Dungeon;
+import lampquest.model.Monster;
+import lampquest.model.Room;
 
 /**
- * Service class implementation for adding a dungeon level.
+ * Lampquest service implementation
  *
  * @author Craig, Connor, Philip, & John
  * @version 1.0
@@ -58,6 +62,22 @@ public class LampquestService implements ILampquestService {
     }
 
     /**
+     * Returns a data transfer object containing all data needed to being a
+     * session.
+     *
+     * @return all data needed to begin a session
+     */
+    public PageLoadDataDto getPageLoadData() {
+        List<Dungeon> dungeons = dungeonsDao.getAllDungeons();
+        List<Room> rooms = roomsDao.getAllRooms();
+        List<Monster> monsters = monstersDao.getAllMonsters();
+
+        /* Need to add items when task 12 is finished */
+
+        return new PageLoadDataDto(dungeons, rooms, monsters);
+    }
+
+    /**
      * Returns bulk data for the specified dungeon id.
      *
      * @param dungeonId the dungeon id of the intended dungeon
@@ -66,6 +86,7 @@ public class LampquestService implements ILampquestService {
      * @throws DungeonNotFoundException
      *     if the dungeonId is not found
      */
+    /* MARK FOR DELETION */
     @Override
     public BulkDataDto getBulkData(int dungeonId)
             throws DungeonNotFoundException {

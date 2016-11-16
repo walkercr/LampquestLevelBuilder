@@ -2,6 +2,8 @@ package lampquest.dao;
 
 import lampquest.model.Dungeon;
 
+import java.util.List;
+
 /**
  * Data access object interface for the Dungeons table.
  *
@@ -10,6 +12,13 @@ import lampquest.model.Dungeon;
  * @since 10/12/2016
  */
 public interface IDungeonsDao {
+
+    /**
+     * Returns a list of the dungeons in the database.
+     *
+     * @return list of dungeons in database
+     */
+    List<Dungeon> getAllDungeons();
 
     /**
      * Returns the dungeon associated with the given id
