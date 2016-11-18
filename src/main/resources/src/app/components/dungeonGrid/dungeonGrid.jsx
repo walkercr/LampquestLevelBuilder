@@ -1,11 +1,31 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
+import { DraggableItemTypes } from '../draggableItemTypes/draggableItemTypes.jsx';
+import { DropTarget } from 'react-dnd';
 
-export default class Grid extends Component {
-    
+const draggableTarget = {
+    drop() {
+        return {
+            name: 'Testing'
+        };
+    }
+};
+
+function collect(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver(),
+        canDrop: monitor.canDrop()
+    };
+}
+
+class DungeonGrid extends Component {
     static propTypes = {
         rows: PropTypes.number.isRequired,
-        columns: PropTypes.number.isRequired
-    }
+        columns: PropTypes.number.isRequired,
+        connectDropTarget: PropTypes.func.isRequired,
+        isOver: PropTypes.bool.isRequired,
+        canDrop: PropTypes.bool.isRequired
+    };
     
     renderRow(i) {
         const gridCells = [];
@@ -26,11 +46,19 @@ export default class Grid extends Component {
 		for (let i = 0; i < this.props.rows; i++) {
 		    gridRows.push(this.renderRow(i));
 		}
-        
-	    return (
+		
+		const { canDrop, isOver, connectDropTarget } = this.props;
+	    const isActive = canDrop && isOver;
+	    
+	    const styles = {};
+	    
+	    if (isActive) {
+	        styles.background = 'yellow';
+	    }
+	    return connectDropTarget(
 		    <div className="grid">
 		        <div className="grid__wrapper">
-	                <div className="grid__container">
+	                <div style={styles} className="grid__container">
 	                    {gridRows}
 	                </div>
 	            </div>
@@ -38,3 +66,5 @@ export default class Grid extends Component {
 		);
 	}
 }
+
+export default DropTarget(DraggableItemTypes.TEST, draggableTarget, collect)(DungeonGrid);

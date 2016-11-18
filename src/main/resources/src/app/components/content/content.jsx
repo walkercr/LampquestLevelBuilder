@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
-
-import DungeonGrid from '../dungeonGrid/dungeonGrid.jsx'
-import DeleteMenu from '../deleteMenu/deleteMenu.jsx'
-
-import Ajax from '../../ajax/ajax.jsx'
+import React, { Component } from 'react';
+import DungeonGrid from '../dungeonGrid/dungeonGrid.jsx';
+import DeleteMenu from '../deleteMenu/deleteMenu.jsx';
+import Ajax from '../../ajax/ajax.jsx';
 
 export default class Content extends Component {
 
