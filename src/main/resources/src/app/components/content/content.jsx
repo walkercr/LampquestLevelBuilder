@@ -28,7 +28,7 @@ export default class Content extends React.Component {
             if (status === 200) {
                 this.setState({sessionData: JSON.parse(response)});
             } else {
-                alert('error loading session data...');
+                console.warn('error loading session data...');
             }
         });
     }
