@@ -28,4 +28,6 @@ public interface IDungeonsDao {
      * @return the dungeon associated with the given id
      */
     Dungeon getDungeon(int dungeonId);
+
+    void updateBoss(int dungeonId, int boss, int bossX, int bossY, int bossZ);
 }

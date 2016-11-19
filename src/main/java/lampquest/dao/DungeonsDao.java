@@ -1,6 +1,7 @@
 package lampquest.dao;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,5 +58,21 @@ public class DungeonsDao implements IDungeonsDao {
     @Transactional
     public Dungeon getDungeon(int dungeonId) {
         return sessionFactory.getCurrentSession().get(Dungeon.class, dungeonId);
+    }
+
+    @Override
+    @Transactional
+    public void updateBoss(int dungeonId, int boss, int bossX, int bossY,
+                           int bossZ) {
+
+        Session session = sessionFactory.getCurrentSession();
+        Dungeon dungeon = session.load(Dungeon.class, dungeonId);
+
+        dungeon.setBoss(boss);
+        dungeon.setBossX(bossX);
+        dungeon.setBossY(bossY);
+        dungeon.setBossZ(bossZ);
+
+        session.update(dungeon);
     }
 }

@@ -2,20 +2,13 @@ package lampquest.services;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
-import lampquest.dao.IDungeonsDao;
-import lampquest.dao.IMonstersDao;
-import lampquest.dao.IRoomsDao;
-import lampquest.dao.IRoomsLevelsDao;
-import lampquest.dto.BulkDataDto;
-import lampquest.dto.DungeonLevelDto;
-import lampquest.dto.RoomDto;
-import lampquest.dto.PageLoadDataDto;
+import lampquest.dao.*;
+import lampquest.dto.*;
 import lampquest.exceptions.DungeonNotFoundException;
-import lampquest.model.Dungeon;
-import lampquest.model.Monster;
-import lampquest.model.Room;
+import lampquest.model.*;
 
 /**
  * Lampquest service implementation
@@ -42,23 +35,37 @@ public class LampquestService implements ILampquestService {
      * Data access object for the Monsters table
      */
     private IMonstersDao monstersDao;
-
     /**
-     * Creates a new palette service implementation with the given dungeons and
-     * rooms data access objects.
-     *
-     * @param dungeonsDao data access object for the Dungeons table
-     * @param roomsDao data access object for the Rooms table
+     * Data access object for the StairsLevels table
      */
-    public LampquestService(IDungeonsDao dungeonsDao,
-                            IRoomsDao roomsDao,
-                            IRoomsLevelsDao roomsLevelsDao,
-                            IMonstersDao monstersDao) {
+    private IStairsLevelsDao stairsLevelsDao;
+    /**
+     * Data access object for the StaticMonsters table
+     */
+    private IStaticMonstersDao staticMonstersDao;
 
+    public void setDungeonsDao(IDungeonsDao dungeonsDao) {
         this.dungeonsDao = dungeonsDao;
+    }
+
+    public void setRoomsDao(IRoomsDao roomsDao) {
         this.roomsDao = roomsDao;
+    }
+
+    public void setRoomsLevelsDao(IRoomsLevelsDao roomsLevelsDao) {
         this.roomsLevelsDao = roomsLevelsDao;
+    }
+
+    public void setMonstersDao(IMonstersDao monstersDao) {
         this.monstersDao = monstersDao;
+    }
+
+    public void setStairsLevelsDao(IStairsLevelsDao stairsLevelsDao) {
+        this.stairsLevelsDao = stairsLevelsDao;
+    }
+
+    public void setStaticMonstersDao(IStaticMonstersDao staticMonstersDao) {
+        this.staticMonstersDao = staticMonstersDao;
     }
 
     /**
@@ -138,6 +145,79 @@ public class LampquestService implements ILampquestService {
                                 .append(room.getStartY()).append(endStatement)
                                 .toString()
                 );
+            }
+        }
+    }
+
+    public void updateLevel(DungeonLevelDto dungeonLevel) {
+        int dungeonId = dungeonLevel.getDungeonId();
+        int level = dungeonLevel.getDepth();
+
+        updateStairsLevels(dungeonLevel.getStairs(), dungeonId, level);
+        updateRoomsLevels(dungeonLevel.getRooms(), dungeonId, level);
+        updateMonsters(dungeonLevel.getMonsters(), dungeonId, level);
+    }
+
+    private void updateStairsLevels(List<StairsDto> stairs, int dungeonId,
+                                    int level) {
+
+        if ((stairs != null) && (!stairs.isEmpty())) {
+            stairsLevelsDao.deleteStairsLevels(dungeonId, level);
+
+            List<StairsLevel> stairsLevels = new ArrayList<>(stairs.size());
+            for (StairsDto dto : stairs) {
+                stairsLevels.add(new StairsLevel(
+                        dto.getStairsX(), dto.getStairsY(), dungeonId, level)
+                );
+            }
+            stairsLevelsDao.insertStairsLevels(stairsLevels);
+        }
+    }
+
+    private void updateRoomsLevels(List<RoomDto> rooms, int dungeonId,
+                                   int level) {
+
+        if ((rooms != null) && (!rooms.isEmpty())) {
+            roomsLevelsDao.deleteRoomsLevels(dungeonId, level);
+
+            List<RoomLevel> roomsLevels = new ArrayList<>(rooms.size());
+            for (RoomDto dto : rooms) {
+                roomsLevels.add(new RoomLevel(dungeonId, level, dto.getRoomId(),
+                        dto.getStartX(), dto.getStartY()));
+            }
+            roomsLevelsDao.insertRoomsLevels(roomsLevels);
+        }
+    }
+
+    private void updateMonsters(List<MonsterDto> monsters, int dungeonId,
+                                int level) {
+
+        if ((monsters != null) && (!monsters.isEmpty())) {
+            List<StaticMonster> staticMonsters = new ArrayList<>(monsters.size());
+            MonsterDto boss = null;
+
+            for (MonsterDto dto : monsters) {
+                if (dto.isBoss()) {
+                    boss = dto;
+                } else {
+                    staticMonsters.add(new StaticMonster(
+                            dto.getMonsterId(),
+                            dto.getMonsterX(),
+                            dto.getMonsterY(),
+                            dungeonId,
+                            level
+                    ));
+                }
+            }
+
+            if (!staticMonsters.isEmpty()) {
+                staticMonstersDao.deleteStaticMonsters(dungeonId, level);
+                staticMonstersDao.insertStaticMonsters(staticMonsters);
+            }
+
+            if (boss != null) {
+                dungeonsDao.updateBoss(dungeonId, boss.getMonsterId(),
+                        boss.getMonsterX(), boss.getMonsterY(), level);
             }
         }
     }

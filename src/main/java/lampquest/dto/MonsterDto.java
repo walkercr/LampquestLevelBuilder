@@ -7,7 +7,6 @@ public class MonsterDto {
     private int monsterId;
     private int monsterX;
     private int monsterY;
-    private int monsterZ;
     private boolean isBoss;
 
     public int getMonsterId() {
@@ -34,19 +33,11 @@ public class MonsterDto {
         this.monsterY = monsterY;
     }
 
-    public int getMonsterZ() {
-        return monsterZ;
-    }
-
-    public void setMonsterZ(int monsterZ) {
-        this.monsterZ = monsterZ;
-    }
-
     public boolean isBoss() {
         return isBoss;
     }
 
-    public void setBoss(boolean isBoss) {
+    public void setIsBoss(boolean isBoss) {
         this.isBoss = isBoss;
     }
 }

@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Properties;
 
-import lampquest.model.Monster;
+import lampquest.model.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
@@ -15,9 +15,6 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import lampquest.dao.*;
-import lampquest.model.Dungeon;
-import lampquest.model.Room;
-import lampquest.model.RoomLevel;
 import lampquest.services.*;
 
 @Configuration
@@ -38,10 +35,14 @@ public class DBConfig {
         bean.setDataSource(dataSource());
         bean.setHibernateProperties(hibernateProperties());
         bean.setPackagesToScan("lampquest.model");
-        bean.setAnnotatedClasses(Dungeon.class,
-                                 Room.class,
-                                 RoomLevel.class,
-                                 Monster.class);
+        bean.setAnnotatedClasses(
+                Dungeon.class,
+                Monster.class,
+                Room.class,
+                RoomLevel.class,
+                StairsLevel.class,
+                StaticMonster.class
+        );
         bean.afterPropertiesSet();
         return bean.getObject();        
     }
@@ -52,7 +53,7 @@ public class DBConfig {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/lampquest2_0");
         dataSource.setUsername("root");
-        dataSource.setPassword("CSI3335");
+        dataSource.setPassword("Caiden_14");
         return dataSource;
     }
     
@@ -83,12 +84,26 @@ public class DBConfig {
     public IMonstersDao monstersDao() throws IOException {
         return new MonstersDao(sessionFactory());
     }
+
+    @Bean
+    public IStairsLevelsDao stairsLevelsDao() throws IOException {
+        return new StairsLevelsDao(sessionFactory());
+    }
+
+    @Bean
+    public IStaticMonstersDao staticMonstersDao() throws IOException {
+        return new StaticMonstersDao(sessionFactory());
+    }
     
     @Bean
     public ILampquestService lampquestService() throws IOException {
-        return new LampquestService(dungeonsDao(),
-                                  roomsDao(),
-                                  roomsLevelsDao(),
-                                  monstersDao());
+        LampquestService lampquestService = new LampquestService();
+        lampquestService.setDungeonsDao(dungeonsDao());
+        lampquestService.setRoomsDao(roomsDao());
+        lampquestService.setRoomsLevelsDao(roomsLevelsDao());
+        lampquestService.setMonstersDao(monstersDao());
+        lampquestService.setStairsLevelsDao(stairsLevelsDao());
+        lampquestService.setStaticMonstersDao(staticMonstersDao());
+        return lampquestService;
     }
 }

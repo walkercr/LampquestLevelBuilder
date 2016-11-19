@@ -27,6 +27,16 @@ public class RoomLevel {
     private int startX;
     private int startY;
 
+    public RoomLevel() {}
+
+    public RoomLevel(int dungeonId, int depth, int roomId, int startX, int startY) {
+        this.dungeonId = dungeonId;
+        this.depth = depth;
+        this.roomId = roomId;
+        this.startX = startX;
+        this.startY = startY;
+    }
+
     public int getRoomPK() {
         return roomPK;
     }

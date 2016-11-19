@@ -44,4 +44,6 @@ public interface ILampquestService {
      *     if an I/O error occurs
      */
     void scriptDungeonLevel(DungeonLevelDto dungeonLevelDto) throws IOException;
+
+    void updateLevel(DungeonLevelDto dungeonLevelDto);
 }

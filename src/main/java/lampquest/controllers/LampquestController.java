@@ -79,15 +79,9 @@ public class LampquestController {
                     produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addLevel(@RequestBody DungeonLevelDto dungeonLevelDto) {
 
-        // generate script to create new dungeon level - return created on success
-        try {
-            lampquestService.scriptDungeonLevel(dungeonLevelDto);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-
-        // return internal server error status code if I/O error occurs
-        } catch (IOException ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        // update db to create the given dungeon level
+        lampquestService.updateLevel(dungeonLevelDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
 

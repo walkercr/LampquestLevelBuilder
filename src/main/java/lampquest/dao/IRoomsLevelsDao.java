@@ -1,5 +1,6 @@
 package lampquest.dao;
 
+import lampquest.dto.RoomDto;
 import lampquest.model.RoomLevel;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface IRoomsLevelsDao {
      * @return a list of all RoomsLevels rows containing the given dungeon id
      */
     List<RoomLevel> getRoomsLevels(int dungeonId);
+
+    void deleteRoomsLevels(int dungeonId, int level);
+    void insertRoomsLevels(List<RoomLevel> rooms);
 }

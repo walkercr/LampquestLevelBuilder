@@ -65,16 +65,32 @@ public class Dungeon {
         return boss;
     }
 
+    public void setBoss(int boss) {
+        this.boss = boss;
+    }
+
     public int getBossX() {
         return bossX;
+    }
+
+    public void setBossX(int bossX) {
+        this.bossX = bossX;
     }
 
     public int getBossY() {
         return bossY;
     }
 
+    public void setBossY(int bossY) {
+        this.bossY = bossY;
+    }
+
     public int getBossZ() {
         return bossZ;
+    }
+
+    public void setBossZ(int bossZ) {
+        this.bossZ = bossZ;
     }
 
     public String getDescription() {

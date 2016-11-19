@@ -1,6 +1,6 @@
 package lampquest.dao;
 
-import lampquest.model.RoomLevel;
+import lampquest.model.StairsLevel;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,13 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Data access object implementation for the RoomsLevels table.
+ * Data access object implementation for the StairsLevels table.
  *
  * @author Craig, Connor, Philip, & John
  * @version 1.0
- * @since 10/12/2016
+ * @since 11/18/2016
  */
-public class RoomsLevelsDao implements IRoomsLevelsDao {
+public class StairsLevelsDao implements IStairsLevelsDao {
 
     /**
      * Database session factory
@@ -22,55 +22,55 @@ public class RoomsLevelsDao implements IRoomsLevelsDao {
     private SessionFactory sessionFactory;
 
     /**
-     * Creates a new RoomsLevelsDao with the given database session factory.
+     * Creates a new StairsLevelsDao with the given database session factory.
      *
      * @param sessionFactory database session factory
      */
-    public RoomsLevelsDao(SessionFactory sessionFactory) {
+    public StairsLevelsDao(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     /**
-     * Returns a list of all RoomsLevels rows containing the given dungeon id.
+     * Returns a list of all StairsLevels rows containing the given dungeon id.
      *
      * @param dungeonId dungeon id of rows to be retrieved
      *
-     * @return a list of all RoomsLevels rows containing the given dungeon id
+     * @return a list of all StairsLevels rows containing the given dungeon id
      */
     @Override
     @Transactional
-    public List<RoomLevel> getRoomsLevels(int dungeonId) {
+    public List<StairsLevel> getStairsLevels(int dungeonId) {
         Session session = sessionFactory.getCurrentSession();
 
         @SuppressWarnings("JpaQlInspection")
         Query query = session.createQuery(
-                "select rl " +
-                "from RoomLevel rl " +
-                "where rl.dungeonId = :dungeonId"
+                "select sl " +
+                "from StairsLevel sl " +
+                "where sl.dungeonId = :dungeonId"
         ).setParameter("dungeonId", dungeonId);
 
         @SuppressWarnings("unchecked")
-        List<RoomLevel> rooms = query.list();
+        List<StairsLevel> stairsLevels =  query.list();
 
-        return rooms;
+        return stairsLevels;
     }
 
     /**
-     * Deletes all RoomsLevels rows with the given dungeon id and level.
+     * Deletes all StairsLevels rows with the given dungeon id and level.
      *
      * @param dungeonId dungeon id of rows to be deleted
      * @param level level of rows to be deleted
      */
     @Override
     @Transactional
-    public void deleteRoomsLevels(int dungeonId, int level) {
+    public void deleteStairsLevels(int dungeonId, int level) {
         Session session = sessionFactory.getCurrentSession();
 
         @SuppressWarnings("JpaQlInspection")
         Query query = session.createQuery(
-                "delete RoomLevel rl " +
-                "where rl.dungeonId = :dungeonId " +
-                "and rl.depth = :level"
+                "delete StairsLevel sl " +
+                "where sl.dungeonId = :dungeonId " +
+                "and sl.stairsZ = :level"
         );
 
         query.setParameter("dungeonId", dungeonId);
@@ -79,14 +79,14 @@ public class RoomsLevelsDao implements IRoomsLevelsDao {
     }
 
     /**
-     * Inserts the given RoomLevel rows into the RoomsLevels table.
+     * Inserts the given StairsLevel objects into the StairsLevels table.
      *
-     * @param rooms RoomsLevels to be inserted
+     * @param stairs StairsLevel's to be inserted
      */
     @Override
     @Transactional
-    public void insertRoomsLevels(List<RoomLevel> rooms) {
+    public void insertStairsLevels(List<StairsLevel> stairs) {
         Session session = sessionFactory.getCurrentSession();
-        rooms.forEach(session::save);
+        stairs.forEach(session::save);
     }
 }

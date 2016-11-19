@@ -6,7 +6,6 @@ package lampquest.dto;
 public class StairsDto {
     private int stairsX;
     private int stairsY;
-    private int stairsZ;
 
     public int getStairsX() {
         return stairsX;
@@ -22,13 +21,5 @@ public class StairsDto {
 
     public void setStairsY(int stairsY) {
         this.stairsY = stairsY;
-    }
-
-    public int getStairsZ() {
-        return stairsZ;
-    }
-
-    public void setStairsZ(int stairsZ) {
-        this.stairsZ = stairsZ;
     }
 }
