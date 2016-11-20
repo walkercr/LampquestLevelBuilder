@@ -54,12 +54,16 @@ export default class Content extends React.Component {
                 {roomId: 7, startX: 22, startY: 30}
             ],
             monsters: [
-                {monsterId: 16, monsterX: 10, monsterY: 12, isBoss: false},
+                {monsterId: 17, monsterX: 10, monsterY: 12, isBoss: false},
                 {monsterId: 17, monsterX: 23, monsterY: 19, isBoss: true}
             ],
             stairs: [
                 {stairsX: 4, stairsY: 8},
                 {stairsX: 22, stairsY: 34}
+            ],
+            dirt: [
+                {dirtX: 2, dirtY: 4},
+                {dirtX: 17, dirtY: 30}
             ],
             filename: null
         };

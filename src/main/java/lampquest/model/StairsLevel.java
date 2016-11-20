@@ -35,12 +35,6 @@ public class StairsLevel {
         this.dungeonId = dungeonId;
     }
 
-    public StairsLevel(int stairsX, int stairsY, int stairsZ, int dungeonId,
-                       int stairsPK) {
-        this(stairsX, stairsY, stairsZ, dungeonId);
-        this.stairsPK = stairsPK;
-    }
-
     public int getStairsX() {
         return stairsX;
     }

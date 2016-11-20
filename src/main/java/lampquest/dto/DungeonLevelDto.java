@@ -9,6 +9,7 @@ public class DungeonLevelDto {
     private List<RoomDto> rooms;
     private List<MonsterDto> monsters;
     private List<StairsDto> stairs;
+    private List<DirtDto> dirt;
     private String filename;
 
     public int getDungeonId() {
@@ -49,6 +50,14 @@ public class DungeonLevelDto {
 
     public void setStairs(List<StairsDto> stairs) {
         this.stairs = stairs;
+    }
+
+    public List<DirtDto> getDirt() {
+        return dirt;
+    }
+
+    public void setDirt(List<DirtDto> dirt) {
+        this.dirt = dirt;
     }
 
     public String getFilename() {

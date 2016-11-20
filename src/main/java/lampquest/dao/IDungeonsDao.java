@@ -2,32 +2,23 @@ package lampquest.dao;
 
 import lampquest.model.Dungeon;
 
-import java.util.List;
-
 /**
- * Data access object interface for the Dungeons table.
+ * Data access object interface for the Dungeon entity.
  *
  * @author Craig, Connor, Philip, & John
  * @version 1.0
  * @since 10/12/2016
  */
-public interface IDungeonsDao {
+public interface IDungeonsDao extends ILampquestDao<Dungeon> {
 
     /**
-     * Returns a list of the dungeons in the database.
+     * Updates boss-specific values for the dungeon with the given dungeon id.
      *
-     * @return list of dungeons in database
+     * @param dungeonId dungeon id of dungeon to be updated
+     * @param boss update value of boss
+     * @param bossX update value of bossX
+     * @param bossY update value of bossY
+     * @param bossZ update value of bossZ
      */
-    List<Dungeon> getAllDungeons();
-
-    /**
-     * Returns the dungeon associated with the given id
-     *
-     * @param dungeonId the dungeon id of the intended dungeon
-     *
-     * @return the dungeon associated with the given id
-     */
-    Dungeon getDungeon(int dungeonId);
-
     void updateBoss(int dungeonId, int boss, int bossX, int bossY, int bossZ);
 }

@@ -41,7 +41,8 @@ public class DBConfig {
                 Room.class,
                 RoomLevel.class,
                 StairsLevel.class,
-                StaticMonster.class
+                StaticMonster.class,
+                DirtLevel.class
         );
         bean.afterPropertiesSet();
         return bean.getObject();        
@@ -71,39 +72,70 @@ public class DBConfig {
     }
     
     @Bean
-    public IRoomsDao roomsDao() throws IOException {
-        return new RoomsDao(sessionFactory());
+    public ILampquestDao<Room> roomsDao() throws IOException {
+        return new LampquestDao<>(sessionFactory(), Room.class);
     }
     
     @Bean 
-    public IRoomsLevelsDao roomsLevelsDao() throws IOException {
-        return new RoomsLevelsDao(sessionFactory());
+    public ILampquestLevelsDao<RoomLevel> roomsLevelsDao() throws IOException {
+
+        final String mappedEntity = "RoomLevel";
+        final String dungeonIdRef = "dungeonId";
+        final String levelRef = "depth";
+
+        return new LampquestLevelsDao<>(sessionFactory(), RoomLevel.class,
+                                        mappedEntity, dungeonIdRef, levelRef);
     }
 
     @Bean
-    public IMonstersDao monstersDao() throws IOException {
-        return new MonstersDao(sessionFactory());
+    public ILampquestDao<Monster> monstersDao() throws IOException {
+        return new LampquestDao<>(sessionFactory(), Monster.class);
     }
 
     @Bean
-    public IStairsLevelsDao stairsLevelsDao() throws IOException {
-        return new StairsLevelsDao(sessionFactory());
+    public ILampquestLevelsDao<StairsLevel> stairsLevelsDao()
+            throws IOException {
+
+        final String mappedEntity = "StairsLevel";
+        final String dungeonIdRef = "dungeonId";
+        final String levelRef = "stairsZ";
+
+        return new LampquestLevelsDao<>(sessionFactory(), StairsLevel.class,
+                                        mappedEntity, dungeonIdRef, levelRef);
     }
 
     @Bean
-    public IStaticMonstersDao staticMonstersDao() throws IOException {
-        return new StaticMonstersDao(sessionFactory());
+    public ILampquestLevelsDao<StaticMonster> staticMonstersDao()
+            throws IOException {
+
+        final String mappedEntity = "StaticMonster";
+        final String dungeonIdRef = "key.dungeonId";
+        final String levelRef = "key.depth";
+
+        return new LampquestLevelsDao<>(sessionFactory(), StaticMonster.class,
+                                        mappedEntity, dungeonIdRef, levelRef);
+    }
+
+    @Bean
+    public ILampquestLevelsDao<DirtLevel> dirtLevelsDao()
+            throws IOException {
+
+        final String mappedEntity = "DirtLevel";
+        final String dungeonIdRef = "key.dungeonId";
+        final String levelRef = "key.dirtZ";
+
+        return new LampquestLevelsDao<>(sessionFactory(), DirtLevel.class,
+                                        mappedEntity, dungeonIdRef, levelRef);
     }
     
     @Bean
     public ILampquestService lampquestService() throws IOException {
-        LampquestService lampquestService = new LampquestService();
-        lampquestService.setDungeonsDao(dungeonsDao());
-        lampquestService.setRoomsDao(roomsDao());
-        lampquestService.setRoomsLevelsDao(roomsLevelsDao());
-        lampquestService.setMonstersDao(monstersDao());
-        lampquestService.setStairsLevelsDao(stairsLevelsDao());
-        lampquestService.setStaticMonstersDao(staticMonstersDao());
-        return lampquestService;
+        return new LampquestService(dungeonsDao(), roomsDao(), monstersDao());
+    }
+
+    @Bean
+    public ILampquestLevelsService lampquestLevelsService() throws IOException {
+        return new LampquestLevelsService(dungeonsDao(), roomsLevelsDao(),
+                stairsLevelsDao(), staticMonstersDao(), dirtLevelsDao());
     }
 }
