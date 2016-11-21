@@ -65,7 +65,9 @@ export default class Content extends React.Component {
                 {dirtX: 2, dirtY: 4},
                 {dirtX: 17, dirtY: 30}
             ],
-            filename: null
+            items: [
+                {itemId: 1, itemX: 3, itemY: 12, numberInstances: 2}
+            ]
         };
 
         Ajax.httpPost('/api/lampquest', dungeonLevel, () => {});

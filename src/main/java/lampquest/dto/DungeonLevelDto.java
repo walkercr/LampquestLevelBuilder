@@ -10,7 +10,7 @@ public class DungeonLevelDto {
     private List<MonsterDto> monsters;
     private List<StairsDto> stairs;
     private List<DirtDto> dirt;
-    private String filename;
+    private List<ItemDto> items;
 
     public int getDungeonId() {
         return dungeonId;
@@ -60,11 +60,11 @@ public class DungeonLevelDto {
         this.dirt = dirt;
     }
 
-    public String getFilename() {
-        return filename;
+    public List<ItemDto> getItems() {
+        return items;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setItems(List<ItemDto> items) {
+        this.items = items;
     }
 }

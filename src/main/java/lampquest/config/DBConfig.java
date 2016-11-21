@@ -127,6 +127,17 @@ public class DBConfig {
         return new LampquestLevelsDao<>(sessionFactory(), DirtLevel.class,
                                         mappedEntity, dungeonIdRef, levelRef);
     }
+
+    @Bean
+    public ILampquestLevelsDao<ItemLevel> itemsLevelsDao() throws IOException {
+
+        final String mappedEntity = "ItemLevel";
+        final String dungeonIdRef = "key.dungeonId";
+        final String levelRef = "key.itemZ";
+
+        return new LampquestLevelsDao<>(sessionFactory(), ItemLevel.class,
+                                        mappedEntity, dungeonIdRef, levelRef);
+    }
     
     @Bean
     public ILampquestService lampquestService() throws IOException {
@@ -135,7 +146,13 @@ public class DBConfig {
 
     @Bean
     public ILampquestLevelsService lampquestLevelsService() throws IOException {
-        return new LampquestLevelsService(dungeonsDao(), roomsLevelsDao(),
-                stairsLevelsDao(), staticMonstersDao(), dirtLevelsDao());
+        return new LampquestLevelsService(
+                dungeonsDao(),
+                roomsLevelsDao(),
+                stairsLevelsDao(),
+                staticMonstersDao(),
+                dirtLevelsDao(),
+                itemsLevelsDao()
+        );
     }
 }
