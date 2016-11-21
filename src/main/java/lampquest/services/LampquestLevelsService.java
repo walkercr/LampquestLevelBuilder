@@ -76,7 +76,7 @@ public class LampquestLevelsService implements ILampquestLevelsService {
 
         // store common dungeon id and level
         int dungeonId = dungeonLevel.getDungeonId();
-        int level = dungeonLevel.getDepth();
+        int level = dungeonLevel.getLevel();
 
         // overwrite existing dungeon level with the given dungeon level
         updateStairsLevels(dungeonLevel.getStairs(), dungeonId, level);

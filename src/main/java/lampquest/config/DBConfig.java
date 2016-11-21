@@ -42,7 +42,8 @@ public class DBConfig {
                 RoomLevel.class,
                 StairsLevel.class,
                 StaticMonster.class,
-                DirtLevel.class
+                DirtLevel.class,
+                ItemLevel.class
         );
         bean.afterPropertiesSet();
         return bean.getObject();        

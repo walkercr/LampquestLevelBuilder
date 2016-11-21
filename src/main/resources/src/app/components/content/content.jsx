@@ -48,7 +48,7 @@ export default class Content extends React.Component {
     postDungeonLevel() {
         let dungeonLevel = {
             dungeonId: 12,
-            depth: 0,
+            level: 0,
             rooms: [
                 {roomId: 3, startX: 10, startY: 10},
                 {roomId: 7, startX: 22, startY: 30}
