@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { DraggableItemTypes } from '../draggableItemTypes/draggableItemTypes.jsx';
 import { DragSource } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 const draggableItemSource = {
     beginDrag(props) {
         return {
-            name: props.name
+            type: props.type
         };
     },
     endDrag(props, monitor) {
@@ -13,7 +14,7 @@ const draggableItemSource = {
         const dropResult = monitor.getDropResult();
         
         if (dropResult) {
-          window.alert(`You dropped ${item.name} into ${dropResult.name}!`);
+          window.alert(`You dropped a(n) ${item.type} into ${dropResult.name}!`);
         }
     }
 };
@@ -21,6 +22,7 @@ const draggableItemSource = {
 function collect(connect, monitor) {
     return {
         connectDragSource: connect.dragSource(),
+        //connectDragPreview: connect.dragPreview(),
         isDragging: monitor.isDragging()
     };
 }
@@ -28,25 +30,34 @@ function collect(connect, monitor) {
 class DraggableItem extends Component {
     static propTypes = {
         connectDragSource: PropTypes.func.isRequired,
+        //connectDragPreview: PropTypes.func.isRequired,
         isDragging: PropTypes.bool.isRequired,
-        name: PropTypes.string.isRequired
+        type: PropTypes.string.isRequired,
+        data: PropTypes.object.isRequired
     };
+    
+    /*componentDidMount() {
+        this.props.connectDragPreview(getEmptyImage(), {
+            captureDraggingState: true
+        });
+    }*/
     
     render() {
         const styles = {
             color: '#fff',
-            width: '50px',
-            height: '50px',
-            background: '#ff0000'
+            padding: '10px',
+            marginBottom: '5px',
+            background: '#ff0000',
+            opacity: 1
         };
         
-        const { isDragging, connectDragSource, name } = this.props;
-        const opacity = isDragging ? 0.5 : 1;
+        const { isDragging, connectDragSource } = this.props;
+        styles.opacity = isDragging ? 0.5 : 1;
         
         return connectDragSource(
-            <div style={{...styles, opacity}}>{name}</div>
+            <div className="draggable-menu-item">{this.props.children}</div>
         );
     }
 }
 
-export default DragSource(DraggableItemTypes.TEST, draggableItemSource, collect)(DraggableItem);
+export default DragSource(props => props.type, draggableItemSource, collect)(DraggableItem);

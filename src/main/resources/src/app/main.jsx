@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Container from './components/container/container.jsx';
+import Content from './components/content/content.jsx';
 import '../scss/styles.scss';
 
-class Main extends React.Component {
+class Main extends Component {
 	render() {
 		return (
-			<Container />
+			<Content />
 		);
 	}
 }

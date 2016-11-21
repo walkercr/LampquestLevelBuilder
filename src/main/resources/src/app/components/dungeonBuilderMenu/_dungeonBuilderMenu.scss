@@ -67,21 +67,32 @@
 }
 
 .dungeon-builder-menu__body {
-	padding: 25px;
+	padding: 15px 0px;
 	height: calc(100% - 50px);
 }
 
 /* @TODO: rename these */
-.items-container {
+.draggable-item-panel {
 	margin-bottom: 15px;
 	&:last-child {
 		margin-bottom: 0;
 	}
 }
 
-.items-container__item {
-	@extend .grid__item;
-	&--draggable {
-		opacity: 0;
-	}
+.draggable-item-panel__header {
+	background: $darker-navy;
+	padding: 10px 15px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.draggable-item-panel__title {
+	color: $off-white;
+	font-weight: bold;
+	font-size: x-large;
+	line-height: 1;
+	margin: 0;
+}
+
+.draggable-item-panel__body {
+	padding: 10px 15px;
 }

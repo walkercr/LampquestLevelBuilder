@@ -5,7 +5,7 @@ import { DropTarget } from 'react-dnd';
 const draggableTarget = {
     drop() {
         return {
-            name: 'Testing'
+            name: 'DungeonGrid'
         };
     }
 };
@@ -25,6 +25,10 @@ class DungeonGrid extends Component {
         connectDropTarget: PropTypes.func.isRequired,
         isOver: PropTypes.bool.isRequired,
         canDrop: PropTypes.bool.isRequired
+    };
+    
+    state = {
+        roomsOnGrid: []
     };
     
     renderRow(i) {
@@ -51,10 +55,10 @@ class DungeonGrid extends Component {
 	    const isActive = canDrop && isOver;
 	    
 	    const styles = {};
-	    
 	    if (isActive) {
 	        styles.background = 'yellow';
 	    }
+	    
 	    return connectDropTarget(
 		    <div className="grid">
 		        <div className="grid__wrapper">
@@ -67,4 +71,4 @@ class DungeonGrid extends Component {
 	}
 }
 
-export default DropTarget(DraggableItemTypes.TEST, draggableTarget, collect)(DungeonGrid);
+export default DropTarget(DraggableItemTypes.ROOM, draggableTarget, collect)(DungeonGrid);
