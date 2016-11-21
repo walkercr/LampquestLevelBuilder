@@ -1,10 +1,13 @@
 package lampquest.services;
 
 import lampquest.dto.DungeonLevelDto;
-import lampquest.dto.PageLoadDataDto;
 
 /**
- * Created by Craig on 11/20/2016.
+ * Lampquest levels service interface.
+ *
+ * @author Craig, Connor, Philip, & John
+ * @version 1.1
+ * @since 11/20/2016
  */
 public interface ILampquestLevelsService {
 

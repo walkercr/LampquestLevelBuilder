@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Lampquest levels service implementation
+ * Lampquest levels service implementation.
  *
  * @author Craig, Connor, Philip, & John
  * @version 1.1
