@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * The DungeonLevel controller.
+ * Lampquest API controller.
  *
  * @author Craig, Connor, Philip, & John
  * @version 1.1
@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.*;
 public class LampquestController {
 
     /**
-     * Service provider for non-level specific lampquest entities
+     * Service provider for non-level specific lampquest requests
      */
     @Autowired
     private ILampquestService lampquestService;
     /**
-     * Service provider for level-specific lampquest entities
+     * Service provider for level-specific lampquest requests
      */
     @Autowired
     private ILampquestLevelsService lampquestLevelsService;
@@ -40,24 +40,24 @@ public class LampquestController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<PageLoadDataDto> getPageLoadData() {
+
+        // fetch and return page load data
         PageLoadDataDto pageLoadData = lampquestService.getPageLoadData();
         return new ResponseEntity<>(pageLoadData, HttpStatus.OK);
     }
 
     /**
-     * Adds a dungeon level to the database.
+     * Updates a lampquest dungeon level.
      *
-     * @param dungeonLevelDto data transfer object containing the dungeon level
-     *                        information
+     * @param dungeonLevelDto the new dungeon level
      *
-     * @return created status code on creation, or internal server error status 
-     *     code if I/O error occurs
+     * @return created status code on creation
      */
     @RequestMapping(value = "/api/lampquest",
                     method = RequestMethod.POST,
                     produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void>
-            updateLevel(@RequestBody DungeonLevelDto dungeonLevelDto) {
+    public ResponseEntity<Void> updateLevel(
+            @RequestBody DungeonLevelDto dungeonLevelDto) {
 
         // update db to create the given dungeon level
         lampquestLevelsService.updateLevel(dungeonLevelDto);
