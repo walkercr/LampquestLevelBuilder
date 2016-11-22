@@ -1,12 +1,25 @@
 import React, { Component, PropTypes } from 'react';
-import { DraggableItemTypes } from '../draggableItemTypes/draggableItemTypes.jsx';
+import { DraggableTypes } from '../../constants/draggableTypes';
 import { DropTarget } from 'react-dnd';
+import update from 'react/lib/update';
 
 const draggableTarget = {
-    drop() {
+    drop(props, monitor, component) {
+        /** this method will not be called if canDrop fails. **/
+        // Obtain the dragged item
+        const room = monitor.getItem();
+        const { x, y } = monitor.getClientOffset();
+        room.x = x;
+        room.y = y;
+        component.addRoom(room);
         return {
             name: 'DungeonGrid'
         };
+    },
+    canDrop(props, monitor) {
+        /** implement collision detection here **/
+        // http://gaearon.github.io/react-dnd/docs-drop-target.html
+        return true;
     }
 };
 
@@ -28,8 +41,24 @@ class DungeonGrid extends Component {
     };
     
     state = {
-        roomsOnGrid: []
+        dungeonRooms: []
     };
+    
+    addRoom(room) {
+        this.setState(update(this.state, {
+            dungeonRooms: {
+                $push: [ room ]
+            }
+        }));
+    }
+    
+    removeRoom() {
+        
+    }
+    
+    moveRoom() {
+        
+    }
     
     renderRow(i) {
         const gridCells = [];
@@ -60,15 +89,11 @@ class DungeonGrid extends Component {
 	    }
 	    
 	    return connectDropTarget(
-		    <div className="grid">
-		        <div className="grid__wrapper">
-	                <div style={styles} className="grid__container">
-	                    {gridRows}
-	                </div>
-	            </div>
+            <div style={styles} className="grid__container">
+                {gridRows}
             </div>
 		);
 	}
 }
 
-export default DropTarget(DraggableItemTypes.ROOM, draggableTarget, collect)(DungeonGrid);
+export default DropTarget(DraggableTypes.ROOM, draggableTarget, collect)(DungeonGrid);

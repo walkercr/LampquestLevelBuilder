@@ -1,26 +1,45 @@
 import React, { Component } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import Ajax from '../../ajax/ajax.jsx';
-import DungeonBuilderMenu from '../dungeonBuilderMenu/dungeonBuilderMenu.jsx';
-import DungeonGrid from '../dungeonGrid/dungeonGrid.jsx';
-import DeleteMenu from '../deleteMenu/deleteMenu.jsx';
+import Ajax from '../../libs/ajax';
+import DungeonBuilderMenu from '../dungeonBuilderMenu/dungeonBuilderMenu';
+import DungeonGrid from '../dungeonGrid/dungeonGrid';
 
 class Content extends Component {
-    
+    // TODO: set initial state = { sessionData: {} } 
     state = {
-        sessionData: null
+        sessionData: {
+            dungeons: [{
+                dungeonId: 1, 
+                dungeonName: 'Dungeon 1', 
+                dungeonWidth: 25, 
+                dungeonHeight: 25, 
+                dungeonDepth: 5 
+            }],
+            rooms: [{ 
+                roomId: 1, 
+                roomName: 'Room 1', 
+                roomWidth: 3, 
+                roomHeight: 3 
+            }],
+            monsters: [{
+                monsterId: 1, 
+                monsterName: 'Monster A', 
+                monsterChar: 'A', 
+                monsterColor: 'red' 
+            }],
+            items: [{
+                itemId: 1, 
+                itemName: 'Item X', 
+                itemChar: 'X', 
+                itemColor: 'orange' 
+            }]
+        } 
     };
-
-    // Must call super here so props are injected into components.
-    // Allows multiple dynamic draggableItemTypes to be supported
-    constructor(props) {
-        super(props);
-        /** Set state here **/
-    }
     
     componentDidMount() {
-        this.fetchPageLoadData();
+        // TODO: uncomment!!!
+        //this.fetchPageLoadData();
     }
 
     /**
@@ -43,16 +62,21 @@ class Content extends Component {
     }
 
     render() {
-		/* DUMMY PLACEHOLDER INITIALIZER VARS - REMOVE EVENTUALLY */
-        const rows = 100, cols = 100;
-        
+		// TODO: DUMMY PLACEHOLDER INITIALIZER VARS - REMOVE EVENTUALLY
+        const rows = 25, cols = 25;
+        // TODO: move grid elements to dungeonGrid and make an inner dragTarget component
         return (
             <section className="root">
-                <DungeonBuilderMenu />
+                <DungeonBuilderMenu data={this.state.sessionData} />
                 <section className="content">
                     <div className="content__header"></div>
-    	            <DungeonGrid rows={rows} columns={cols} />
-    	            <DeleteMenu />
+                    <div className="content__body">
+                        <div className="grid">
+                            <div className="grid__wrapper">
+                                <DungeonGrid rows={rows} columns={cols} />
+        	                </div>
+                        </div>
+                    </div>
                 </section>
             </section>
 		);

@@ -2,8 +2,40 @@
 @import 'variables';
 @import 'core';
 
+/**
+ * DungeonBuilderMenu
+ **/
 @import '../app/components/dungeonBuilderMenu/dungeonBuilderMenu';
-@import '../app/components/draggableItem/draggableItem';
+
+/**
+ * DraggableMenuItem
+ * MenuItemDragLayer
+ **/
+@import '../app/components/draggableMenuItem/draggableMenuItem';
+@import '../app/components/draggableMenuItem/menuItemDragLayer';
+
+/**
+ * Room
+ * Monster
+ * Item
+ * Stairs
+ **/
+@import '../app/components/room/room';
+@import '../app/components/monster/monster';
+@import '../app/components/item/item';
+//@import '../app/components/stairs/stairs';
+
+/**
+ * Content
+ **/
 @import '../app/components/content/content';
+
+/**
+ * DungeonGrid
+ **/
 @import '../app/components/dungeonGrid/dungeonGrid';
+
+/**
+ * DeleteMenu 
+ **/
 @import '../app/components/deleteMenu/deleteMenu';

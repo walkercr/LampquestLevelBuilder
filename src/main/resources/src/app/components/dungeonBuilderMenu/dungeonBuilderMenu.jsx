@@ -1,35 +1,21 @@
-import React, { Component } from 'react';
-import DraggableItem from '../draggableItem/draggableItem.jsx';
-import { DraggableItemTypes } from '../draggableItemTypes/draggableItemTypes.jsx';
+import React, { Component, PropTypes } from 'react';
+import { DraggableTypes } from '../../constants/draggableTypes';
+import DraggableMenuItem from '../draggableMenuItem/draggableMenuItem';
+import MenuItemDragLayer from '../draggableMenuItem/menuItemDragLayer';
 
 export default class DungeonBuilderMenu extends Component {
+    
+    static propTypes = {
+        data: PropTypes.object.isRequired
+    };
+    
+    constructor(props) {
+        super(props);
+        this.state = props.data;
+    }
+    
     render() {
-        const rooms = [
-            { roomId: 1, roomName: 'Room 1', roomWidth: 3, roomHeight: 3 },
-            { roomId: 2, roomName: 'Room 2', roomWidth: 4, roomHeight: 4 },
-            { roomId: 3, roomName: 'Room 3', roomWidth: 5, roomHeight: 5 }
-        ],
-        monsters = [
-            { monsterId: 1, monsterName: 'Monster A', monsterChar: 'A', monsterColor: 'red' },
-            { monsterId: 2, monsterName: 'Monster B', monsterChar: 'B', monsterColor: 'green' },
-            { monsterId: 3, monsterName: 'Monster C', monsterChar: 'C', monsterColor: 'blue' }
-        ],
-        items = [
-            { itemId: 1, itemName: 'Item X', itemChar: 'X', itemColor: 'orange' },
-            { itemId: 2, itemName: 'Item Y', itemChar: 'Y', itemColor: 'yellow' },
-            { itemId: 3, itemName: 'Item Z', itemChar: 'Z', itemColor: 'purple' }
-        ],
-        stairs = [
-            // TODO: not sure what would go here... then again this is just a
-            // crude mock-up so I will leave out stairs for now.
-        ];
-        
-        const containerStyles = {
-            paddingBottom: '10px'
-        },
-        containerTitleStyles = {
-            color: '#fff'
-        };
+        const { rooms, monsters, items } = this.state;
         
         return (
             <aside className="dungeon-builder-menu">
@@ -43,10 +29,10 @@ export default class DungeonBuilderMenu extends Component {
                         </div>
                         <div className="draggable-item-panel__body">
                             {rooms.map((data, i) => 
-                                <DraggableItem key={i} data={data} type={DraggableItemTypes.ROOM}>
+                                <DraggableMenuItem key={i} data={data} type={DraggableTypes.ROOM}>
                                     <p className="draggable-menu-item__title">{data.roomName}</p>
                                     <p className="draggable-menu-item__subtitle">{'(' + data.roomWidth + 'x' + data.roomHeight + ')'}</p>
-                                </DraggableItem>
+                                </DraggableMenuItem>
                             )}
                         </div>
                     </div>
@@ -56,9 +42,9 @@ export default class DungeonBuilderMenu extends Component {
                         </div>
                         <div className="draggable-item-panel__body">
                             {monsters.map((data, i) => 
-                                <DraggableItem key={i} data={data} type={DraggableItemTypes.MONSTER}>
+                                <DraggableMenuItem key={i} data={data} type={DraggableTypes.MONSTER}>
                                     <p className="draggable-menu-item__title">{data.monsterName}</p>
-                                </DraggableItem>
+                                </DraggableMenuItem>
                             )}
                         </div>
                     </div>
@@ -68,9 +54,9 @@ export default class DungeonBuilderMenu extends Component {
                         </div>
                         <div className="draggable-item-panel__body">
                             {items.map((data, i) => 
-                                <DraggableItem key={i} data={data} type={DraggableItemTypes.ITEM}>
+                                <DraggableMenuItem key={i} data={data} type={DraggableTypes.ITEM}>
                                     <p className="draggable-menu-item__title">{data.itemName}</p>
-                                </DraggableItem>
+                                </DraggableMenuItem>
                             )}
                         </div>
                     </div>
@@ -83,6 +69,7 @@ export default class DungeonBuilderMenu extends Component {
                         </div>
                     </div>
                 </div>
+                <MenuItemDragLayer />
             </aside>
         );
     }

@@ -1,4 +1,4 @@
-export const DraggableItemTypes = {
+export const DraggableTypes = {
     ROOM: 'room',
     ITEM: 'item',
     STAIRS: 'stairs',

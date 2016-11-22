@@ -8,16 +8,22 @@
 	&:last-child {
 		margin-bottom: 0;
 	}
+	
+	&--dragging {
+		opacity: 0.5;
+	}
 }
 
 .draggable-menu-item__title {
 	color: $off-white;
 	font-size: large;
 	margin: 0;
+	text-transform: capitalize;
 }
 
 .draggable-menu-item__subtitle {
 	color: $off-white;
 	font-size: small;
 	margin: 0;
+	text-transform: capitalize;
 }
