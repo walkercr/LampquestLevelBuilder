@@ -3,7 +3,6 @@ package lampquest.dto;
 import lampquest.model.Dungeon;
 import lampquest.model.Monster;
 import lampquest.model.Room;
-
 import java.util.List;
 
 /**
@@ -14,16 +13,17 @@ import java.util.List;
  * @since 11/15/2016
  */
 public class PageLoadDataDto {
+
     /**
-     * all available dungeons
+     * list of  available dungeons
      */
     private List<Dungeon> dungeons;
     /**
-     * all available rooms
+     * list of  available rooms
      */
     private List<Room> rooms;
     /**
-     * all available monsters
+     * list of  available monsters
      */
     private List<Monster> monsters;
 
@@ -33,9 +33,9 @@ public class PageLoadDataDto {
     /**
      * Constructs a page load data DTO.
      *
-     * @param dungeons available dungeons
-     * @param rooms available rooms
-     * @param monsters available monsters
+     * @param dungeons list of available dungeons
+     * @param rooms list of available rooms
+     * @param monsters list of available monsters
      */
     public PageLoadDataDto(List<Dungeon> dungeons,
                            List<Room> rooms,
@@ -48,7 +48,7 @@ public class PageLoadDataDto {
     /**
      * Returns the available dungeons.
      *
-     * @return available dungeons
+     * @return list of available dungeons
      */
     public List<Dungeon> getDungeons() {
         return dungeons;
@@ -57,7 +57,7 @@ public class PageLoadDataDto {
     /**
      * Returns the available rooms.
      *
-     * @return available rooms
+     * @return list of available rooms
      */
     public List<Room> getRooms() {
         return rooms;
@@ -66,7 +66,7 @@ public class PageLoadDataDto {
     /**
      * Returns the available monsters.
      *
-     * @return available monsters
+     * @return list of available monsters
      */
     public List<Monster> getMonsters() {
         return monsters;
