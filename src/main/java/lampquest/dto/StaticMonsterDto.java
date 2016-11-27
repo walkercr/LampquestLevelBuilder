@@ -4,7 +4,7 @@ import lampquest.model.StaticMonster;
 import lampquest.model.StaticMonsterKey;
 
 /**
- * Data transfer object for item level to mask model key attribute.
+ * Data transfer object for static monster to mask model key attribute.
  *
  * @author Craig, Connor, Philip, & John
  * @version 1.0
@@ -12,23 +12,23 @@ import lampquest.model.StaticMonsterKey;
  */
 public class StaticMonsterDto {
     /**
-     * monster id (StaticMonsters monsterId column)
+     * monster id
      */
     private int monsterId;
     /**
-     * monster x-position (StaticMonsters monsterX column)
+     * monster x-position
      */
     private int monsterX;
     /**
-     * monster y-position (StaticMonsters monsterY column)
+     * monster y-position
      */
     private int monsterY;
     /**
-     * monster dungeon id (StaticMonsters dungeonId column)
+     * monster dungeon id
      */
     private int dungeonId;
     /**
-     * monster dungeon depth (StaticMonsters depth column)
+     * monster dungeon depth
      */
     private int depth;
 
