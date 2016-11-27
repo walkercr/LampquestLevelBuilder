@@ -67,6 +67,25 @@ public class LampquestLevelsService implements ILampquestLevelsService {
     }
 
     /**
+     * Retrieves and returns the data associated with the selected dungeon.
+     *
+     * @param dungeonId id of the selected dungeon
+     *
+     * @return selected dungeon data
+     */
+    @Override
+    public SelectedDungeonDataDto getSelectedDungeonData(int dungeonId) {
+        List<DirtLevel> dirtLevels = dirtLevelsDao.getRows(dungeonId);
+        List<ItemLevel> itemLevels = itemsLevelsDao.getRows(dungeonId);
+        List<RoomLevel> roomLevels = roomsLevelsDao.getRows(dungeonId);
+        List<StairsLevel> stairsLevels = stairsLevelsDao.getRows(dungeonId);
+        List<StaticMonster> staticMonsters = staticMonstersDao.getRows(dungeonId);
+
+        return new SelectedDungeonDataDto(dirtLevels, itemLevels, roomLevels,
+                                          stairsLevels, staticMonsters);
+    }
+
+    /**
      * Overwrites existing dungeon level with the given dungeon level.
      *
      * @param dungeonLevel the new dungeon level

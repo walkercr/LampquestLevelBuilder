@@ -7,11 +7,12 @@ import Ajax from '../../ajax/ajax.jsx'
 
 export default class Content extends React.Component {
 
-    state = {data: null, sessionData: null};
+    state = {data: null, sessionData: null, selectedDungeonData: null};
 
     componentDidMount() {
         //this.fetch();
         this.fetchPageLoadData();
+        this.fetchSelectedDungeonData(12);
         this.postDungeonLevel();
     }
 
@@ -41,6 +42,16 @@ export default class Content extends React.Component {
                 this.setState({data: JSON.parse(response)});
             } else {
                 alert('fetch failed: ' + status);
+            }
+        });
+    }
+
+    fetchSelectedDungeonData(dungeonId) {
+        Ajax.httpGet('/api/lampquest/' + dungeonId, (status, response) => {
+            if (status == 200) {
+                this.setState({selectedDungeonData: JSON.parse(response)});
+            } else {
+                console.warn("fetch selected dungeon data failed");
             }
         });
     }
