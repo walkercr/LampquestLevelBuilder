@@ -12,23 +12,23 @@ import lampquest.model.StaticMonsterKey;
  */
 public class StaticMonsterDto {
     /**
-     * monster id
+     * static monster id
      */
     private int monsterId;
     /**
-     * monster x-position
+     * static monster x-position
      */
     private int monsterX;
     /**
-     * monster y-position
+     * static monster y-position
      */
     private int monsterY;
     /**
-     * monster dungeon id
+     * dungeon id of dungeon containing static monster
      */
     private int dungeonId;
     /**
-     * monster dungeon depth
+     * dungeon depth where static monster is located
      */
     private int depth;
 
@@ -46,40 +46,40 @@ public class StaticMonsterDto {
     }
 
     /**
-     * Returns the monster id.
-     * @return monster id
+     * Returns the static monster id.
+     * @return static monster id
      */
     public int getMonsterId() {
         return monsterId;
     }
 
     /**
-     * Returns the monster x-position.
-     * @return monster x-position
+     * Returns the static monster x-position.
+     * @return static monster x-position
      */
     public int getMonsterX() {
         return monsterX;
     }
 
     /**
-     * Returns the monster y-position.
-     * @return monster y-position
+     * Returns the static monster y-position.
+     * @return static monster y-position
      */
     public int getMonsterY() {
         return monsterY;
     }
 
     /**
-     * Returns the dungeon id.
-     * @return dungeon id
+     * Returns the dungeon id containing the static monster.
+     * @return dungeon id containing the static monster
      */
     public int getDungeonId() {
         return dungeonId;
     }
 
     /**
-     * Returns the dungeon depth.
-     * @return dungeon depth
+     * Returns the dungeon depth where the static monster is located.
+     * @return dungeon depth where static monster is located
      */
     public int getDepth() {
         return depth;
