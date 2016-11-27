@@ -67,6 +67,43 @@ public class LampquestLevelsService implements ILampquestLevelsService {
     }
 
     /**
+     * Retrieves and returns the data associated with the selected dungeon.
+     *
+     * @param dungeonId id of the selected dungeon
+     *
+     * @return selected dungeon data
+     */
+    @Override
+    public SelectedDungeonDataDto getSelectedDungeonData(int dungeonId) {
+
+        // convert dirt levels to dto to mask hibernate key features
+        List<DirtLevelDto> dirtLevels = new ArrayList<>();
+        for (DirtLevel dl : dirtLevelsDao.getRows(dungeonId)) {
+            dirtLevels.add(new DirtLevelDto(dl));
+        }
+
+        // convert item levels to dto to mask hibernate key features
+        List<ItemLevelDto> itemLevels = new ArrayList<>();
+        for (ItemLevel il : itemsLevelsDao.getRows(dungeonId)) {
+            itemLevels.add(new ItemLevelDto(il));
+        }
+
+        // retrieve room levels and stairs levels - no need to convert
+        List<RoomLevel> roomLevels = roomsLevelsDao.getRows(dungeonId);
+        List<StairsLevel> stairsLevels = stairsLevelsDao.getRows(dungeonId);
+
+        // convert static monsters to dto to mask hibernate key features
+        List<StaticMonsterDto> staticMonsters = new ArrayList<>();
+        for (StaticMonster sm : staticMonstersDao.getRows(dungeonId)) {
+            staticMonsters.add(new StaticMonsterDto(sm));
+        }
+
+        // create and return a new selected dungeon data dto
+        return new SelectedDungeonDataDto(dirtLevels, itemLevels, roomLevels,
+                                          stairsLevels, staticMonsters);
+    }
+
+    /**
      * Overwrites existing dungeon level with the given dungeon level.
      *
      * @param dungeonLevel the new dungeon level

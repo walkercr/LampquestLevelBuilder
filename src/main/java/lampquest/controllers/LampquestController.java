@@ -2,6 +2,7 @@ package lampquest.controllers;
 
 import lampquest.dto.DungeonLevelDto;
 import lampquest.dto.PageLoadDataDto;
+import lampquest.dto.SelectedDungeonDataDto;
 import lampquest.services.ILampquestLevelsService;
 import lampquest.services.ILampquestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,25 @@ public class LampquestController {
         // fetch and return page load data
         PageLoadDataDto pageLoadData = lampquestService.getPageLoadData();
         return new ResponseEntity<>(pageLoadData, HttpStatus.OK);
+    }
+
+    /**
+     * Returns the selected dungeon data for the dungeon with the given id.
+     *
+     * @param id selected dungeon id
+     *
+     * @return selected dungeon data associated with dungeon levels
+     */
+    @RequestMapping(value = "/api/lampquest/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<SelectedDungeonDataDto>
+            getSelectedDungeonData(@PathVariable("id") int id) {
+
+        SelectedDungeonDataDto selectedDungeonData =
+                lampquestLevelsService.getSelectedDungeonData(id);
+
+        return new ResponseEntity<>(selectedDungeonData, HttpStatus.OK);
     }
 
     /**
