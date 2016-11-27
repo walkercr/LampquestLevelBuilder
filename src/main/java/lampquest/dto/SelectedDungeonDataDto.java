@@ -1,6 +1,7 @@
 package lampquest.dto;
 
-import lampquest.model.*;
+import lampquest.model.RoomLevel;
+import lampquest.model.StairsLevel;
 import java.util.List;
 
 /**
@@ -15,11 +16,11 @@ public class SelectedDungeonDataDto {
     /**
      * dirt levels for the selected dungeon
      */
-    private List<DirtLevel> dirtLevels;
+    private List<DirtLevelDto> dirtLevels;
     /**
      * items levels for the selected dungeon
      */
-    private List<ItemLevel> itemLevels;
+    private List<ItemLevelDto> itemLevels;
     /**
      * rooms levels for the selected dungeon
      */
@@ -31,7 +32,7 @@ public class SelectedDungeonDataDto {
     /**
      * static monsters for the selected dungeon
      */
-    private List<StaticMonster> staticMonsters;
+    private List<StaticMonsterDto> staticMonsters;
 
     /**
      * Constructs a SelectedDungeonDataDto with the given input.
@@ -42,11 +43,11 @@ public class SelectedDungeonDataDto {
      * @param stairsLevels stairs levels for the selected dungeon
      * @param staticMonsters static monsters for the selected dungeon
      */
-    public SelectedDungeonDataDto(List<DirtLevel> dirtLevels,
-                                  List<ItemLevel> itemLevels,
+    public SelectedDungeonDataDto(List<DirtLevelDto> dirtLevels,
+                                  List<ItemLevelDto> itemLevels,
                                   List<RoomLevel> roomLevels,
                                   List<StairsLevel> stairsLevels,
-                                  List<StaticMonster> staticMonsters) {
+                                  List<StaticMonsterDto> staticMonsters) {
         this.dirtLevels = dirtLevels;
         this.itemLevels = itemLevels;
         this.roomLevels = roomLevels;
@@ -58,7 +59,7 @@ public class SelectedDungeonDataDto {
      * Returns the list of dirt levels for the selected dungeon.
      * @return list of dirt levels
      */
-    public List<DirtLevel> getDirtLevels() {
+    public List<DirtLevelDto> getDirtLevels() {
         return dirtLevels;
     }
 
@@ -66,7 +67,7 @@ public class SelectedDungeonDataDto {
      * Returns the list of items levels for the selected dungeon.
      * @return list of items levels
      */
-    public List<ItemLevel> getItemLevels() {
+    public List<ItemLevelDto> getItemLevels() {
         return itemLevels;
     }
 
@@ -90,7 +91,7 @@ public class SelectedDungeonDataDto {
      * Returns the list of static monsters for the selected dungeon.
      * @return list of static monsters
      */
-    public List<StaticMonster> getStaticMonsters() {
+    public List<StaticMonsterDto> getStaticMonsters() {
         return staticMonsters;
     }
 }
