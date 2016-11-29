@@ -1,4 +1,9 @@
 .draggable-grid-item {
+	cursor: pointer;
     position: absolute;
     z-index: 1;
+    
+    &--dragging {
+    	opacity: 0.3;
+    }
 }

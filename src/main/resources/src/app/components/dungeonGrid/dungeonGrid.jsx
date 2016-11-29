@@ -4,7 +4,6 @@ import update from 'react/lib/update';
 import classNames from 'classnames';
 import { newDragTypes, existingDragTypes } from '../../constants/constants';
 import DraggableGridItem from '../draggableGridItem/draggableGridItem';
-import Room from '../room/room';
 
 const draggableTarget = {
     drop(props, monitor, component) {
@@ -68,21 +67,6 @@ class DungeonGrid extends Component {
         }));
     }
     
-    removeRoom() {
-        
-    }
-    
-    moveRoom() {
-        
-    }
-    
-    computeRoomPosition(i) {
-        const { x, y } = this.state.rooms[i].position;
-        return {
-            transform: `translate3d(${x * 25}px, ${y * 25}px, 0)`
-        };
-    }
-    
     renderRow(i) {
         const gridCells = [];
         for (let j = 0; j < this.props.columns; j++) {
@@ -114,10 +98,8 @@ class DungeonGrid extends Component {
 	    
 	    return connectDropTarget(
             <div className="grid__container">
-	            {this.state.rooms.map((obj, i) => 
-                    <DraggableGridItem key={i} position={this.computeRoomPosition(i)} dragType={existingDragTypes.ROOM}>
-	                    <Room width={obj.data.roomWidth * 25} height={obj.data.roomHeight * 25} />
-	                </DraggableGridItem>
+	            {this.state.rooms.map((room, i) => 
+                    <DraggableGridItem key={i} gridItem={room} dragType={existingDragTypes.ROOM} />
                 )}
 	            {gridRows}
             </div>

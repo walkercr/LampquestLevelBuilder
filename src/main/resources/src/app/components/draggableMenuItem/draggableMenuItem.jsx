@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
-import { newDragTypes } from '../../constants/constants';
 import classNames from 'classnames';
+import { newDragTypes } from '../../constants/constants';
 
 const draggableSource = {
     beginDrag(props, monitor, component) {
@@ -32,7 +32,7 @@ class DraggableMenuItem extends Component {
         connectDragPreview: PropTypes.func.isRequired,
         isDragging: PropTypes.bool.isRequired,
         data: PropTypes.object.isRequired,
-        type: PropTypes.oneOf(Object.values(newDragTypes)).isRequired
+        dragType: PropTypes.oneOf(Object.values(newDragTypes)).isRequired
     };
     
     componentDidMount() {
@@ -56,4 +56,4 @@ class DraggableMenuItem extends Component {
     }
 }
 
-export default DragSource(props => props.type, draggableSource, collect)(DraggableMenuItem);
+export default DragSource(props => props.dragType, draggableSource, collect)(DraggableMenuItem);

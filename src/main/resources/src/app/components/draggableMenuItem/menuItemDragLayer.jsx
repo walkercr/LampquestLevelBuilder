@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { DragLayer } from 'react-dnd';
-import { newDragTypes } from '../../constants/constants';
+import { newDragTypes, existingDragTypes } from '../../constants/constants';
 import Room from '../room/room';
 import Monster from '../monster/monster';
 import Item from '../item/item';
@@ -18,7 +18,7 @@ function collect(monitor) {
 class MenuItemDragLayer extends Component {
     static propTypes = {
         menuItem: PropTypes.object,
-        menuItemType: PropTypes.oneOf(Object.values(newDragTypes)),
+        menuItemType: PropTypes.oneOf(Object.values(Object.assign({}, newDragTypes, existingDragTypes))),
         initialOffset: PropTypes.shape({
             x: PropTypes.number.isRequired,
             y: PropTypes.number.isRequired
@@ -49,12 +49,16 @@ class MenuItemDragLayer extends Component {
         
         switch(menuItemType) {
             case newDragTypes.NEW_ROOM:
+            case existingDragTypes.ROOM:
                 return (<Room width={menuItem.roomWidth * 25} height={menuItem.roomHeight * 25} />);
             case newDragTypes.NEW_MONSTER:
+            case existingDragTypes.MONSTER:
                 return (<Monster />);
             case newDragTypes.NEW_ITEM:
+            case existingDragTypes.ITEM:
                 return (<Item />);
             case newDragTypes.NEW_STAIRS:
+            case existingDragTypes.STAIRS:
                 return (<div>STAIRS</div>);
             default:
                 console.warn('invalid draggable-menu-item type.');
