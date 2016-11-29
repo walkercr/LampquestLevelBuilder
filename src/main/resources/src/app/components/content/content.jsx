@@ -21,6 +21,11 @@ class Content extends Component {
                 roomName: 'Room 1', 
                 roomWidth: 3, 
                 roomHeight: 3 
+            }, { 
+                roomId: 2, 
+                roomName: 'Room 2', 
+                roomWidth: 5, 
+                roomHeight: 3 
             }],
             monsters: [{
                 monsterId: 1, 

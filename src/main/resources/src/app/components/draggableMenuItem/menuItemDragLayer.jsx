@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { DragLayer } from 'react-dnd';
-import { DraggableTypes } from '../../constants/draggableTypes';
+import { newDragTypes } from '../../constants/constants';
 import Room from '../room/room';
 import Monster from '../monster/monster';
 import Item from '../item/item';
@@ -18,7 +18,7 @@ function collect(monitor) {
 class MenuItemDragLayer extends Component {
     static propTypes = {
         menuItem: PropTypes.object,
-        menuItemType: PropTypes.oneOf(Object.values(DraggableTypes)),
+        menuItemType: PropTypes.oneOf(Object.values(newDragTypes)),
         initialOffset: PropTypes.shape({
             x: PropTypes.number.isRequired,
             y: PropTypes.number.isRequired
@@ -39,9 +39,8 @@ class MenuItemDragLayer extends Component {
         }
        
         const { x, y } = currentOffset;
-        
         return {
-            transform: `translate(${x - 10}px, ${y - 10}px)`
+            transform: `translate3d(${x}px, ${y}px, 0)`
         }
     }
     
@@ -49,15 +48,18 @@ class MenuItemDragLayer extends Component {
         const { menuItem, menuItemType } = this.props;
         
         switch(menuItemType) {
-        case DraggableTypes.ROOM:
-            return (<Room width={menuItem.roomWidth * 25} height={menuItem.roomHeight * 25} />);
-        case DraggableTypes.MONSTER:
-            return (<Monster />);
-        case DraggableTypes.ITEM:
-            return (<Item />);
-        default:    // DraggableTypes.STAIRS
-            return (<div>STAIRS</div>);
-        }
+            case newDragTypes.NEW_ROOM:
+                return (<Room width={menuItem.roomWidth * 25} height={menuItem.roomHeight * 25} />);
+            case newDragTypes.NEW_MONSTER:
+                return (<Monster />);
+            case newDragTypes.NEW_ITEM:
+                return (<Item />);
+            case newDragTypes.NEW_STAIRS:
+                return (<div>STAIRS</div>);
+            default:
+                console.warn('invalid draggable-menu-item type.');
+                return (<div>UNKNOWN</div>);
+            }
     }
     
     render() {

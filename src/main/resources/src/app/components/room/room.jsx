@@ -13,7 +13,7 @@ export default class Room extends Component {
         };
         
         return (
-            <div style={styles} className="room">R</div>
+            <div style={styles} className="room"></div>
         );
     }
 }

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { DraggableTypes } from '../../constants/draggableTypes';
+import { newDragTypes } from '../../constants/constants';
 import DraggableMenuItem from '../draggableMenuItem/draggableMenuItem';
 import MenuItemDragLayer from '../draggableMenuItem/menuItemDragLayer';
 
@@ -29,7 +29,7 @@ export default class DungeonBuilderMenu extends Component {
                         </div>
                         <div className="draggable-item-panel__body">
                             {rooms.map((data, i) => 
-                                <DraggableMenuItem key={i} data={data} type={DraggableTypes.ROOM}>
+                                <DraggableMenuItem key={i} data={data} type={newDragTypes.NEW_ROOM}>
                                     <p className="draggable-menu-item__title">{data.roomName}</p>
                                     <p className="draggable-menu-item__subtitle">{'(' + data.roomWidth + 'x' + data.roomHeight + ')'}</p>
                                 </DraggableMenuItem>
@@ -42,7 +42,7 @@ export default class DungeonBuilderMenu extends Component {
                         </div>
                         <div className="draggable-item-panel__body">
                             {monsters.map((data, i) => 
-                                <DraggableMenuItem key={i} data={data} type={DraggableTypes.MONSTER}>
+                                <DraggableMenuItem key={i} data={data} type={newDragTypes.NEW_MONSTER}>
                                     <p className="draggable-menu-item__title">{data.monsterName}</p>
                                 </DraggableMenuItem>
                             )}
@@ -54,7 +54,7 @@ export default class DungeonBuilderMenu extends Component {
                         </div>
                         <div className="draggable-item-panel__body">
                             {items.map((data, i) => 
-                                <DraggableMenuItem key={i} data={data} type={DraggableTypes.ITEM}>
+                                <DraggableMenuItem key={i} data={data} type={newDragTypes.NEW_ITEM}>
                                     <p className="draggable-menu-item__title">{data.itemName}</p>
                                 </DraggableMenuItem>
                             )}
