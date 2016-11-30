@@ -13,7 +13,7 @@ const draggableTarget = {
                 component.addRoom(monitor.getItem(), monitor.getClientOffset());
                 break;
             case existingDragTypes.ROOM:
-                // existing room on grid
+                component.moveRoom(monitor.getItem().index, monitor.getClientOffset());
                 break;
         }
         
@@ -67,6 +67,32 @@ class DungeonGrid extends Component {
         }));
     }
     
+    moveRoom(index, offset) {
+        const { top, left } = this.state.offset;
+        const newPos = {
+            x: Math.round((offset.x - left) / 25), 
+            y: Math.round((offset.y - top) / 25)
+        };
+        
+        this.setState(update(this.state, {
+            rooms: {
+                [index]: {
+                    position: {
+                        $set: newPos
+                    }
+                }
+            }
+        }));
+    }
+    
+    removeRoom() {
+        this.setState(update(this.state, {
+            rooms: {
+                $splice: [[0, 1]]
+            }
+        }));
+    }
+    
     renderRow(i) {
         const gridCells = [];
         for (let j = 0; j < this.props.columns; j++) {
@@ -80,12 +106,18 @@ class DungeonGrid extends Component {
         );
     }
     
-    // TODO: How do you get element position in React?
-    // Get the grid containers viewport offsets so we can place newly
-    // dragged items on the correct grid location.
-    componentDidMount() {
+    updateContainerOffset() {
         let { top, left } = document.querySelector('.grid__container').getBoundingClientRect();
         this.setState({offset: { top: top, left: left } });
+    }
+    
+    componentDidMount() {
+        this.updateContainerOffset();
+        window.addEventListener('resize', this.updateContainerOffset.bind(this));
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateContainerOffset.bind(this));
     }
     
     render() {
@@ -99,7 +131,7 @@ class DungeonGrid extends Component {
 	    return connectDropTarget(
             <div className="grid__container">
 	            {this.state.rooms.map((room, i) => 
-                    <DraggableGridItem key={i} gridItem={room} dragType={existingDragTypes.ROOM} />
+                    <DraggableGridItem key={i} index={i} gridItem={room} dragType={existingDragTypes.ROOM} />
                 )}
 	            {gridRows}
             </div>

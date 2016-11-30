@@ -7,7 +7,15 @@ import Room from '../room/room';
 
 const draggableSource = {
     beginDrag(props, monitor, component) {
-        return props.gridItem.data;
+        // TODO: this is ugly and bad. REFACTOR.
+        const { data, position } = props.gridItem;
+        
+        return {
+            index: props.index,
+            roomWidth: data.roomWidth,
+            roomHeight: data.roomHeight,
+            position: position
+        };
     }
 };
 
@@ -32,8 +40,16 @@ class DraggableGridItem extends Component {
         connectDragPreview: PropTypes.func.isRequired,
         isDragging: PropTypes.bool.isRequired,
         dragType: PropTypes.oneOf(Object.values(existingDragTypes)).isRequired,
-        gridItem: PropTypes.object.isRequired
+        gridItem: PropTypes.object.isRequired,
+        index: PropTypes.number.isRequired
     };
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            position: props.position 
+        };
+    }
     
     computePosition() {
         const { x, y } = this.props.gridItem.position;
@@ -69,7 +85,6 @@ class DraggableGridItem extends Component {
     
     render() {
         const { connectDragSource, isDragging } = this.props;
-        
         const classes = classNames({
             'draggable-grid-item': true,
             'draggable-grid-item--dragging': isDragging
