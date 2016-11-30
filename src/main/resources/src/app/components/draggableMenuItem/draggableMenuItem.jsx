@@ -41,8 +41,34 @@ class DraggableMenuItem extends Component {
         });
     }
     
+    renderTitle() {
+        const { dragType, data } = this.props;
+        
+        switch(dragType) {
+            case newDragTypes.NEW_ROOM:
+                return data.roomName;
+            case newDragTypes.NEW_ITEM:
+                return data.itemName;
+            case newDragTypes.NEW_MONSTER:
+                return data.monsterName;
+            case newDragTypes.NEW_STAIRS:
+                return 'stairs';
+        }
+    }
+    
+    renderSubtitle() {
+        const { dragType, data } = this.props;
+        
+        switch(dragType) {
+            case newDragTypes.NEW_ROOM:
+                return '(' + data.roomWidth + 'x' + data.roomHeight + ')';
+            default:
+                return '';
+        }
+    }
+    
     render() {
-        const { isDragging, connectDragSource } = this.props;
+        const { isDragging, connectDragSource, dragType } = this.props;
         const classes = classNames({
             'draggable-menu-item': true,
             'draggable-menu-item--dragging': isDragging
@@ -50,7 +76,8 @@ class DraggableMenuItem extends Component {
         
         return connectDragSource(
             <div className={classes}>
-                {this.props.children}
+                <p className="draggable-menu-item__title">{this.renderTitle()}</p>
+                <p className="draggable-menu-item__subtitle">{this.renderSubtitle()}</p>
             </div>
         );
     }

@@ -4,8 +4,10 @@
 
 /**
  * DungeonBuilderMenu
+ * DraggablesMenuPanel
  **/
 @import '../app/components/dungeonBuilderMenu/dungeonBuilderMenu';
+@import '../app/components/draggablesMenuPanel/draggablesMenuPanel';
 
 /**
  * DraggableMenuItem
@@ -15,6 +17,11 @@
 @import '../app/components/draggableMenuItem/draggableMenuItem';
 @import '../app/components/draggableGridItem/draggableGridItem';
 @import '../app/components/draggableOverlay/draggableOverlay';
+
+/**
+ * DroppableGridItem
+ **/
+@import '../app/components/droppableGridItem/droppableGridItem';
 
 /**
  * Room

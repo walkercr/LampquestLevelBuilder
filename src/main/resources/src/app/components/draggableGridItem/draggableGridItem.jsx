@@ -28,13 +28,6 @@ function collect(connect, monitor) {
 }
 
 class DraggableGridItem extends Component {
-    /**
-     * @param dragType Array of existing drag types; 
-     *      any of ['room', 'monster', 'item', 'stairs']
-     * 
-     * @param position The grid coordinates of the given draggable grid
-     *      item.
-     */
     static propTypes = {
         connectDragSource: PropTypes.func.isRequired,
         connectDragPreview: PropTypes.func.isRequired,

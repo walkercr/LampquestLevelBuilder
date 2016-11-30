@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { DropTarget } from 'react-dnd';
 import update from 'react/lib/update';
+import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import { newDragTypes, existingDragTypes, unitSize } from '../../constants/constants';
 import DraggableGridItem from '../draggableGridItem/draggableGridItem';
@@ -107,7 +108,7 @@ class DungeonGrid extends Component {
     }
     
     updateContainerOffset() {
-        let { top, left } = document.querySelector('.grid__container').getBoundingClientRect();
+        let { top, left } = findDOMNode(this).getBoundingClientRect();
         this.setState({offset: { top: top, left: left } });
     }
     
