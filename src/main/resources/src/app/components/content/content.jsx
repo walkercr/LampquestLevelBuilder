@@ -4,6 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import Ajax from '../../libs/ajax';
 import DungeonBuilderMenu from '../dungeonBuilderMenu/dungeonBuilderMenu';
 import DungeonGrid from '../dungeonGrid/dungeonGrid';
+import DraggableOverlay from '../draggableOverlay/draggableOverlay';
 
 class Content extends Component {
     // TODO: set initial state = { sessionData: {} } 
@@ -83,6 +84,7 @@ class Content extends Component {
                         </div>
                     </div>
                 </section>
+                <DraggableOverlay />
             </section>
 		);
 	}

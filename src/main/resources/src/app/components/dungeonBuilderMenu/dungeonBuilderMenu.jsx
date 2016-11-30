@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { newDragTypes } from '../../constants/constants';
 import DraggableMenuItem from '../draggableMenuItem/draggableMenuItem';
-import MenuItemDragLayer from '../draggableMenuItem/menuItemDragLayer';
 
 export default class DungeonBuilderMenu extends Component {
     
@@ -69,7 +68,6 @@ export default class DungeonBuilderMenu extends Component {
                         </div>
                     </div>
                 </div>
-                <MenuItemDragLayer />
             </aside>
         );
     }

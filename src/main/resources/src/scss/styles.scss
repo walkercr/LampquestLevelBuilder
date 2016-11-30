@@ -9,15 +9,12 @@
 
 /**
  * DraggableMenuItem
- * MenuItemDragLayer
+ * DraggableGridItem
+ * DraggableOverlay
  **/
 @import '../app/components/draggableMenuItem/draggableMenuItem';
-@import '../app/components/draggableMenuItem/menuItemDragLayer';
-
-/**
- * DraggableGridItem
- **/
 @import '../app/components/draggableGridItem/draggableGridItem';
+@import '../app/components/draggableOverlay/draggableOverlay';
 
 /**
  * Room

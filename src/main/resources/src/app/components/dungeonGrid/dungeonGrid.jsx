@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { DropTarget } from 'react-dnd';
 import update from 'react/lib/update';
 import classNames from 'classnames';
-import { newDragTypes, existingDragTypes } from '../../constants/constants';
+import { newDragTypes, existingDragTypes, unitSize } from '../../constants/constants';
 import DraggableGridItem from '../draggableGridItem/draggableGridItem';
 
 const draggableTarget = {
@@ -55,8 +55,8 @@ class DungeonGrid extends Component {
         const room = {
             data: data,
             position: {
-                x: Math.round((offset.x - left) / 25),
-                y: Math.round((offset.y - top) / 25)
+                x: Math.round((offset.x - left) / unitSize),
+                y: Math.round((offset.y - top) / unitSize)
             }
         };
         
@@ -70,8 +70,8 @@ class DungeonGrid extends Component {
     moveRoom(index, offset) {
         const { top, left } = this.state.offset;
         const newPos = {
-            x: Math.round((offset.x - left) / 25), 
-            y: Math.round((offset.y - top) / 25)
+            x: Math.round((offset.x - left) / unitSize), 
+            y: Math.round((offset.y - top) / unitSize)
         };
         
         this.setState(update(this.state, {

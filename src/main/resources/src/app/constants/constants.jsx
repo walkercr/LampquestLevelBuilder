@@ -21,14 +21,8 @@ export const existingDragTypes = {
 };
 
 /**
- * Represents the default size (px) of grid cells on the dungeonGrid. Also
- * acts as a scalar value for determining the height/width of 
- * rooms/monsters/items/stairs.
+ * Represents the size (in px) of 1 scalar unit for draggables and 
+ * grid cells. ex: a room has a width: 3, height: 5, applying the unitSize
+ * we get width: 3 * 25 px, height: 5 * 25 px.
  */
-export const DEFAULT_CELL_SIZE = 25;
-
-/**
- * The offset from the top left corner where the draggable item
- * should anchor to the mouse.
- */
-export const DRAG_ANCHOR_OFFSET = 25 / 12;
+export const unitSize = 25;

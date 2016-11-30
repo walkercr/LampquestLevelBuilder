@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import classNames from 'classnames';
-import { existingDragTypes } from '../../constants/constants';
+import { existingDragTypes, unitSize } from '../../constants/constants';
 import Room from '../room/room';
 
 const draggableSource = {
@@ -54,17 +54,16 @@ class DraggableGridItem extends Component {
     computePosition() {
         const { x, y } = this.props.gridItem.position;
         return {
-            transform: `translate3d(${x * 25}px, ${y * 25}px, 0)`
+            transform: `translate3d(${x * unitSize}px, ${y * unitSize}px, 0)`
         };
     }
     
-    // TODO: replace hard-coded 25 with dynamic value
     renderGridItem() {
         switch(this.props.dragType) {
             case existingDragTypes.ROOM:
                 const { roomWidth, roomHeight } = this.props.gridItem.data;
                 return (
-                    <Room width={roomWidth * 25} height={roomHeight * 25} />
+                    <Room width={roomWidth * unitSize} height={roomHeight * unitSize} />
                 );
             case existingDragTypes.MONSTER:
                 break;

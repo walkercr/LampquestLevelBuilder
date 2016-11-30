@@ -1,43 +1,38 @@
 import React, { Component, PropTypes } from 'react';
 import { DragLayer } from 'react-dnd';
-import { newDragTypes, existingDragTypes } from '../../constants/constants';
+import { newDragTypes, existingDragTypes, unitSize } from '../../constants/constants';
 import Room from '../room/room';
 import Monster from '../monster/monster';
 import Item from '../item/item';
 
 function collect(monitor) {
     return {
-        menuItem: monitor.getItem(),
-        menuItemType: monitor.getItemType(),
-        initialOffset: monitor.getInitialClientOffset(),
+        dragItem: monitor.getItem(),
+        dragType: monitor.getItemType(),
         currentOffset: monitor.getClientOffset(),
         isDragging: monitor.isDragging()
     };
 }
 
-class MenuItemDragLayer extends Component {
+class DraggableOverlay extends Component {
     static propTypes = {
-        menuItem: PropTypes.object,
-        menuItemType: PropTypes.oneOf(Object.values(Object.assign({}, newDragTypes, existingDragTypes))),
-        initialOffset: PropTypes.shape({
-            x: PropTypes.number.isRequired,
-            y: PropTypes.number.isRequired
-        }),
+        dragItem: PropTypes.object,
+        dragType: PropTypes.oneOf(Object.values(Object.assign({}, newDragTypes, existingDragTypes))),
         currentOffset: PropTypes.shape({
             x: PropTypes.number.isRequired,
             y: PropTypes.number.isRequired
-        }),
+        }),        
         isDragging: PropTypes.bool.isRequired
     };
     
     computePosition() {
-        const { initialOffset, currentOffset } = this.props;
-        if (!initialOffset || !currentOffset) {
+        const { currentOffset, dragType } = this.props;
+        if (!currentOffset) {
             return {
                 display: 'none'
             };
         }
-       
+        
         const { x, y } = currentOffset;
         return {
             transform: `translate3d(${x}px, ${y}px, 0)`
@@ -45,12 +40,12 @@ class MenuItemDragLayer extends Component {
     }
     
     renderDragLayer() {
-        const { menuItem, menuItemType } = this.props;
+        const { dragItem, dragType } = this.props;
         
-        switch(menuItemType) {
+        switch(dragType) {
             case newDragTypes.NEW_ROOM:
             case existingDragTypes.ROOM:
-                return (<Room width={menuItem.roomWidth * 25} height={menuItem.roomHeight * 25} />);
+                return (<Room width={dragItem.roomWidth * unitSize} height={dragItem.roomHeight * unitSize} />);
             case newDragTypes.NEW_MONSTER:
             case existingDragTypes.MONSTER:
                 return (<Monster />);
@@ -74,7 +69,7 @@ class MenuItemDragLayer extends Component {
         }
         
         return (
-            <div className="menu-item-drag-layer">
+            <div className="draggable-overlay">
                 <div style={this.computePosition()}>
                     {this.renderDragLayer()}
                 </div>
@@ -83,4 +78,4 @@ class MenuItemDragLayer extends Component {
     }
 }
 
-export default DragLayer(collect)(MenuItemDragLayer);
+export default DragLayer(collect)(DraggableOverlay);
