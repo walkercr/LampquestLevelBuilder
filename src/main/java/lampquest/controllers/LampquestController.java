@@ -1,11 +1,10 @@
 package lampquest.controllers;
 
-import lampquest.dto.BulkDataDto;
 import lampquest.dto.DungeonLevelDto;
 import lampquest.dto.PageLoadDataDto;
-import lampquest.exceptions.DungeonNotFoundException;
+import lampquest.dto.SelectedDungeonDataDto;
+import lampquest.services.ILampquestLevelsService;
 import lampquest.services.ILampquestService;
-import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,20 +12,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * The DungeonLevel controller.
+ * Lampquest API controller.
  *
  * @author Craig, Connor, Philip, & John
- * @version 1.0
+ * @version 1.1
  * @since 10/12/2016
  */
 @RestController
 public class LampquestController {
 
     /**
-     * Service provider for the lampquest database
+     * Service provider for non-level specific lampquest requests
      */
     @Autowired
     private ILampquestService lampquestService;
+    /**
+     * Service provider for level-specific lampquest requests
+     */
+    @Autowired
+    private ILampquestLevelsService lampquestLevelsService;
 
     /**
      * Returns page load data needed to being a session.
@@ -37,57 +41,47 @@ public class LampquestController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<PageLoadDataDto> getPageLoadData() {
+
+        // fetch and return page load data
         PageLoadDataDto pageLoadData = lampquestService.getPageLoadData();
         return new ResponseEntity<>(pageLoadData, HttpStatus.OK);
     }
 
     /**
-     * Returns bulk data for the given dungeon id.
+     * Returns the selected dungeon data for the dungeon with the given id.
      *
-     * @param id the dungeon id
+     * @param id selected dungeon id
      *
-     * @return bulk data for the given dungeon id
+     * @return selected dungeon data associated with dungeon levels
      */
     @RequestMapping(value = "/api/lampquest/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    ResponseEntity<BulkDataDto> getPalette(@PathVariable("id") int id) {
+    public @ResponseBody ResponseEntity<SelectedDungeonDataDto>
+            getSelectedDungeonData(@PathVariable("id") int id) {
 
-        // retrieve/return a palette for the given id
-        try {
-            BulkDataDto bulkDataDto = lampquestService.getBulkData(id);
-            return new ResponseEntity<>(bulkDataDto, HttpStatus.OK);
+        SelectedDungeonDataDto selectedDungeonData =
+                lampquestLevelsService.getSelectedDungeonData(id);
 
-            // return not found status if no dungeon is found with the given id
-        } catch (DungeonNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(selectedDungeonData, HttpStatus.OK);
     }
 
     /**
-     * Adds a dungeon level to the database.
+     * Updates a lampquest dungeon level.
      *
-     * @param dungeonLevelDto data transfer object containing the dungeon level
-     *                        information
+     * @param dungeonLevelDto the new dungeon level
      *
-     * @return created status code on creation, or internal server error status 
-     *     code if I/O error occurs
+     * @return created status code on creation
      */
     @RequestMapping(value = "/api/lampquest",
                     method = RequestMethod.POST,
                     produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> addLevel(@RequestBody DungeonLevelDto dungeonLevelDto) {
+    public ResponseEntity<Void> updateLevel(
+            @RequestBody DungeonLevelDto dungeonLevelDto) {
 
-        // generate script to create new dungeon level - return created on success
-        try {
-            lampquestService.scriptDungeonLevel(dungeonLevelDto);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-
-        // return internal server error status code if I/O error occurs
-        } catch (IOException ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        // update db to create the given dungeon level
+        lampquestLevelsService.updateLevel(dungeonLevelDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
 

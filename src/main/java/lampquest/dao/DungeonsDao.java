@@ -1,26 +1,19 @@
 package lampquest.dao;
 
-import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
-
 import lampquest.model.Dungeon;
 
-import java.util.List;
-
 /**
- * Data access object implementation for the Dungeons table.
+ * Data access object implementation for the Dungeon entity.
  *
  * @author Craig, Connor, Philip, & John
  * @version 1.0
  * @since 10/12/2016
  */
-public class DungeonsDao implements IDungeonsDao {
-
-    /**
-     * Database session factory
-     */
-    private SessionFactory sessionFactory;
+public class DungeonsDao extends LampquestDao<Dungeon>
+                         implements IDungeonsDao {
 
     /**
      * Creates a new DungeonsDaoImpl with the given database session factory.
@@ -28,34 +21,34 @@ public class DungeonsDao implements IDungeonsDao {
      * @param sessionFactory database session factory
      */
     public DungeonsDao(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+        super(sessionFactory, Dungeon.class);
     }
 
     /**
-     * Returns a list of the dungeons in the database.
+     * Updates boss-specific values for the dungeon with the given dungeon id.
      *
-     * @return list of dungeons in database
+     * @param dungeonId dungeon id of dungeon to be updated
+     * @param boss update value of boss
+     * @param bossX update value of bossX
+     * @param bossY update value of bossY
+     * @param bossZ update value of bossZ
      */
     @Override
     @Transactional
-    @SuppressWarnings("unchecked")
-    public List<Dungeon> getAllDungeons() {
-        return sessionFactory.getCurrentSession()
-                .createCriteria(Dungeon.class)
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
-                .list();
-    }
+    public void updateBoss(int dungeonId, int boss, int bossX, int bossY,
+                           int bossZ) {
 
-    /**
-     * Returns the dungeon associated with the given id
-     *
-     * @param dungeonId the dungeon id of the intended dungeon
-     *
-     * @return the dungeon associated with the given id
-     */
-    @Override
-    @Transactional
-    public Dungeon getDungeon(int dungeonId) {
-        return sessionFactory.getCurrentSession().get(Dungeon.class, dungeonId);
+        // load current value of dungeon with the given dungeon id
+        Session session = sessionFactory.getCurrentSession();
+        Dungeon dungeon = session.load(Dungeon.class, dungeonId);
+
+        // set update values on loaded dungeon
+        dungeon.setBoss(boss);
+        dungeon.setBossX(bossX);
+        dungeon.setBossY(bossY);
+        dungeon.setBossZ(bossZ);
+
+        // save updated dungeon to database
+        session.update(dungeon);
     }
 }
