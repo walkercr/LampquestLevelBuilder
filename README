@@ -1,0 +1,14 @@
+The database configuration settings are located in src/main/java/config/DbConfig.java
+in the dataSource() Bean method. The url, username, and password can be modified
+here to match your system.
+
+To build the (Gradle) project:
+1. Install npm resources: cd into src/main/resources and run the following command:
+      npm install
+2. Build front end artifacts: from src/main/resources, run the following command:
+      npm run build
+3. Build back end
+      gradle compile
+
+-Note: you can also generate eclipse files with the command 'gradle eclipse' and/or
+       Intellij idea files with the command 'gradle idea'.

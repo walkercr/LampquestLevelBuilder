@@ -76,7 +76,7 @@ public class DBConfig {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/lampquest2_0");
         dataSource.setUsername("root");
-        dataSource.setPassword("CSI3335");
+        dataSource.setPassword("Caiden_14");
         return dataSource;
     }
 
