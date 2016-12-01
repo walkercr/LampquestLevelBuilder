@@ -22,15 +22,26 @@ import org.springframework.web.bind.annotation.*;
 public class LampquestController {
 
     /**
-     * Service provider for non-level specific lampquest requests
+     * Service provider for non-level-specific lampquest requests
      */
-    @Autowired
     private ILampquestService lampquestService;
     /**
      * Service provider for level-specific lampquest requests
      */
-    @Autowired
     private ILampquestLevelsService lampquestLevelsService;
+
+    /**
+     * Constructs a new LampquestController with the given service providers.
+     *
+     * @param lampquestService non-level-specific service provider
+     * @param lampquestLevelsService level-specific service provider
+     */
+    @Autowired
+    public LampquestController(ILampquestService lampquestService,
+                               ILampquestLevelsService lampquestLevelsService) {
+        this.lampquestService = lampquestService;
+        this.lampquestLevelsService = lampquestLevelsService;
+    }
 
     /**
      * Returns page load data needed to being a session.

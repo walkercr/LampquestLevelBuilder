@@ -1,0 +1,22 @@
+Lampquest Level Builder
+
+The database configuration settings are located in src/main/java/config/DbConfig.java
+in the dataSource() Bean method. The url, username, and password can be modified
+here to match your system.
+
+To build the (Gradle) project from the command line:
+  1. Install npm resources: cd into src/main/resources and run the following command:
+       npm install
+  2. Build front end artifacts: from src/main/resources, run the following command:
+       npm run build
+  3. Build back: cd back to the top level directory and run the following command:
+       gradle build
+
+To run the project from command line:
+       gradle bootRun
+
+To generate Eclipse files:
+       gradle eclipse
+
+To generate Intellij files:
+       gradle idea

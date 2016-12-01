@@ -59,7 +59,6 @@ public class DBConfig {
                 RoomLevel.class,
                 StairsLevel.class,
                 StaticMonster.class,
-                DirtLevel.class,
                 ItemLevel.class
         );
         bean.afterPropertiesSet();
@@ -173,23 +172,6 @@ public class DBConfig {
     }
 
     /**
-     * Returns a data access object for the DirtLevels table.
-     * @return DirtLevels data access object
-     * @throws IOException if an I/O error occurs
-     */
-    @Bean
-    public ILampquestLevelsDao<DirtLevel> dirtLevelsDao()
-            throws IOException {
-
-        final String mappedEntity = "DirtLevel";
-        final String dungeonIdRef = "key.dungeonId";
-        final String levelRef = "key.dirtZ";
-
-        return new LampquestLevelsDao<>(sessionFactory(), DirtLevel.class,
-                                        mappedEntity, dungeonIdRef, levelRef);
-    }
-
-    /**
      * Returns a data access object for the ItemsLevels table.
      * @return ItemsLevels data access object
      * @throws IOException if an I/O error occurs
@@ -229,7 +211,6 @@ public class DBConfig {
                 roomsLevelsDao(),
                 stairsLevelsDao(),
                 staticMonstersDao(),
-                dirtLevelsDao(),
                 itemsLevelsDao()
         );
     }

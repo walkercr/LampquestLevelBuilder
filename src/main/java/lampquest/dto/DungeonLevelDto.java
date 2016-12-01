@@ -32,10 +32,6 @@ public class DungeonLevelDto {
      */
     private List<StairsDto> stairs;
     /**
-     * list of dungeon level dirt
-     */
-    private List<DirtDto> dirt;
-    /**
      * list of dungeon level items
      */
     private List<ItemDto> items;
@@ -118,22 +114,6 @@ public class DungeonLevelDto {
      */
     public void setStairs(List<StairsDto> stairs) {
         this.stairs = stairs;
-    }
-
-    /**
-     * Returns the dungeon level dirt.
-     * @return list of dungeon level dirt
-     */
-    public List<DirtDto> getDirt() {
-        return dirt;
-    }
-
-    /**
-     * Sets the dungeon level dirt.
-     * @param dirt list of dungeon level dirt
-     */
-    public void setDirt(List<DirtDto> dirt) {
-        this.dirt = dirt;
     }
 
     /**
