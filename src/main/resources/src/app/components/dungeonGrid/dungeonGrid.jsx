@@ -39,8 +39,7 @@ class DungeonGrid extends Component {
     static propTypes = {
         connectDropTarget: PropTypes.func.isRequired,
         canDrop: PropTypes.bool.isRequired,
-        rows: PropTypes.number.isRequired,
-        columns: PropTypes.number.isRequired
+        dungeon: PropTypes.object.isRequired
     };
     
     state = {
@@ -96,12 +95,13 @@ class DungeonGrid extends Component {
     
     renderRow(i) {
         const gridCells = [];
-        for (let j = 0; j < this.props.columns; j++) {
-            gridCells.push(<div key={j} className="grid__cell"></div>);
+        const { dungeonHeight: columns } = this.props.dungeon;
+        for (let j = 0; j < columns; j++) {
+            gridCells.push(<div key={'cell-' + j} className="grid__cell"></div>);
         }
         
         return (
-            <div key={i} className="grid__row">
+            <div key={'row-' + i} className="grid__row">
                 {gridCells}
             </div>
         );
@@ -123,7 +123,9 @@ class DungeonGrid extends Component {
     
     render() {
 		const gridRows = [];
-		for (let i = 0; i < this.props.rows; i++) {
+		const { dungeonWidth: rows } = this.props.dungeon;
+		
+		for (let i = 0; i < rows; i++) {
 		    gridRows.push(this.renderRow(i));
 		}
 		
@@ -132,7 +134,7 @@ class DungeonGrid extends Component {
 	    return connectDropTarget(
             <div className="grid__container">
 	            {this.state.rooms.map((room, i) => 
-                    <DraggableGridItem key={i} index={i} gridItem={room} dragType={existingDragTypes.ROOM} />
+                    <DraggableGridItem key={'item-' + i} index={i} gridItem={room} dragType={existingDragTypes.ROOM} />
                 )}
 	            {gridRows}
             </div>
