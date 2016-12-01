@@ -1,8 +1,6 @@
 import React from 'react'
-
 import Grid from '../grid/grid.jsx'
 import DeleteMenu from '../deleteMenu/deleteMenu.jsx'
-
 import Ajax from '../../ajax/ajax.jsx'
 
 export default class Content extends React.Component {
@@ -71,10 +69,6 @@ export default class Content extends React.Component {
             stairs: [
                 {stairsX: 4, stairsY: 8},
                 {stairsX: 22, stairsY: 34}
-            ],
-            dirt: [
-                {dirtX: 2, dirtY: 4},
-                {dirtX: 17, dirtY: 30}
             ],
             items: [
                 {itemId: 1, itemX: 3, itemY: 12, numberInstances: 2}

@@ -12,11 +12,6 @@ import java.util.List;
  * @since 11/22/2016
  */
 public class SelectedDungeonDataDto {
-
-    /**
-     * dirt levels for the selected dungeon
-     */
-    private List<DirtLevelDto> dirtLevels;
     /**
      * items levels for the selected dungeon
      */
@@ -37,30 +32,19 @@ public class SelectedDungeonDataDto {
     /**
      * Constructs a SelectedDungeonDataDto with the given input.
      *
-     * @param dirtLevels dirt levels for the selected dungeon
      * @param itemLevels items levels for the selected dungeon
      * @param roomLevels rooms levels for the selected dungeon
      * @param stairsLevels stairs levels for the selected dungeon
      * @param staticMonsters static monsters for the selected dungeon
      */
-    public SelectedDungeonDataDto(List<DirtLevelDto> dirtLevels,
-                                  List<ItemLevelDto> itemLevels,
+    public SelectedDungeonDataDto(List<ItemLevelDto> itemLevels,
                                   List<RoomLevel> roomLevels,
                                   List<StairsLevel> stairsLevels,
                                   List<StaticMonsterDto> staticMonsters) {
-        this.dirtLevels = dirtLevels;
         this.itemLevels = itemLevels;
         this.roomLevels = roomLevels;
         this.stairsLevels = stairsLevels;
         this.staticMonsters = staticMonsters;
-    }
-
-    /**
-     * Returns the list of dirt levels for the selected dungeon.
-     * @return list of dirt levels
-     */
-    public List<DirtLevelDto> getDirtLevels() {
-        return dirtLevels;
     }
 
     /**

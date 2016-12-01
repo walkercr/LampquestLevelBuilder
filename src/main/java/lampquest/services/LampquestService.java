@@ -39,7 +39,6 @@ public class LampquestService implements ILampquestService {
     public LampquestService(IDungeonsDao dungeonsDao,
                             ILampquestDao<Room> roomsDao,
                             ILampquestDao<Monster> monstersDao) {
-
         this.dungeonsDao = dungeonsDao;
         this.roomsDao = roomsDao;
         this.monstersDao = monstersDao;

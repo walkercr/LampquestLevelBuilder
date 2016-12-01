@@ -32,10 +32,6 @@ public class LampquestLevelsService implements ILampquestLevelsService {
      */
     private ILampquestLevelsDao<StaticMonster> staticMonstersDao;
     /**
-     * Data access object for the DirtLevels table
-     */
-    private ILampquestLevelsDao<DirtLevel> dirtLevelsDao;
-    /**
      * Data access object for the ItemsLevels table
      */
     private ILampquestLevelsDao<ItemLevel> itemsLevelsDao;
@@ -48,21 +44,18 @@ public class LampquestLevelsService implements ILampquestLevelsService {
      * @param roomsLevelsDao data access object for the RoomsLevels table
      * @param stairsLevelsDao data access object for the StairsLevels table
      * @param staticMonstersDao data access object for the StaticMonsters table
-     * @param dirtLevelsDao data access object for the DirtLevels table
      * @param itemsLevelsDao data access object for the ItemsLevels table
      */
     public LampquestLevelsService(IDungeonsDao dungeonsDao,
                                   ILampquestLevelsDao<RoomLevel> roomsLevelsDao,
                                   ILampquestLevelsDao<StairsLevel> stairsLevelsDao,
                                   ILampquestLevelsDao<StaticMonster> staticMonstersDao,
-                                  ILampquestLevelsDao<DirtLevel> dirtLevelsDao,
                                   ILampquestLevelsDao<ItemLevel> itemsLevelsDao) {
 
         this.dungeonsDao = dungeonsDao;
         this.roomsLevelsDao = roomsLevelsDao;
         this.stairsLevelsDao = stairsLevelsDao;
         this.staticMonstersDao = staticMonstersDao;
-        this.dirtLevelsDao = dirtLevelsDao;
         this.itemsLevelsDao = itemsLevelsDao;
     }
 
@@ -75,12 +68,6 @@ public class LampquestLevelsService implements ILampquestLevelsService {
      */
     @Override
     public SelectedDungeonDataDto getSelectedDungeonData(int dungeonId) {
-
-        // convert dirt levels to dto to mask hibernate key features
-        List<DirtLevelDto> dirtLevels = new ArrayList<>();
-        for (DirtLevel dl : dirtLevelsDao.getRows(dungeonId)) {
-            dirtLevels.add(new DirtLevelDto(dl));
-        }
 
         // convert item levels to dto to mask hibernate key features
         List<ItemLevelDto> itemLevels = new ArrayList<>();
@@ -99,7 +86,7 @@ public class LampquestLevelsService implements ILampquestLevelsService {
         }
 
         // create and return a new selected dungeon data dto
-        return new SelectedDungeonDataDto(dirtLevels, itemLevels, roomLevels,
+        return new SelectedDungeonDataDto(itemLevels, roomLevels,
                                           stairsLevels, staticMonsters);
     }
 
@@ -119,7 +106,6 @@ public class LampquestLevelsService implements ILampquestLevelsService {
         updateStairsLevels(dungeonLevel.getStairs(), dungeonId, level);
         updateRoomsLevels(dungeonLevel.getRooms(), dungeonId, level);
         updateStaticMonsters(dungeonLevel.getMonsters(), dungeonId, level);
-        updateDirtLevels(dungeonLevel.getDirt(), dungeonId, level);
         updateItemsLevels(dungeonLevel.getItems(), dungeonId, level);
     }
 
@@ -223,33 +209,6 @@ public class LampquestLevelsService implements ILampquestLevelsService {
                 staticMonstersDao.deleteRows(dungeonId, level);
                 staticMonstersDao.insertRows(staticMonsters);
             }
-        }
-    }
-
-    /**
-     * Overwrites existing DirtLevels rows with the given dungeon id and level
-     * with the given dirt.
-     *
-     * @param dirt dirt to be written to database
-     * @param dungeonId dungeon id associated with given dirt
-     * @param level dungeon level associated with given dirt
-     */
-    private void updateDirtLevels(List<DirtDto> dirt, int dungeonId, int level) {
-
-        // update if dirt contains data
-        if ((dirt != null) && (!dirt.isEmpty())) {
-
-            // delete existing DirtLevels rows for dungeon id and level
-            dirtLevelsDao.deleteRows(dungeonId, level);
-
-            // convert dirt dto objects to DirtLevel entity objects
-            List<DirtLevel> dirtLevels = new ArrayList<>(dirt.size());
-            dirt.forEach(d -> dirtLevels.add(new DirtLevel(
-                    new DirtLevelKey(dungeonId, d.getDirtX(), d.getDirtY(), level)
-            )));
-
-            // insert new DirtLevels rows
-            dirtLevelsDao.insertRows(dirtLevels);
         }
     }
 
