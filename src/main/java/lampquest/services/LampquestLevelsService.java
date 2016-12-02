@@ -72,7 +72,9 @@ public class LampquestLevelsService implements ILampquestLevelsService {
         // convert item levels to dto to mask hibernate key features
         List<ItemLevelDto> itemLevels = new ArrayList<>();
         for (ItemLevel il : itemsLevelsDao.getRows(dungeonId)) {
-            itemLevels.add(new ItemLevelDto(il));
+            if (il != null) {
+                itemLevels.add(new ItemLevelDto(il));
+            }
         }
 
         // retrieve room levels and stairs levels - no need to convert
@@ -82,7 +84,9 @@ public class LampquestLevelsService implements ILampquestLevelsService {
         // convert static monsters to dto to mask hibernate key features
         List<StaticMonsterDto> staticMonsters = new ArrayList<>();
         for (StaticMonster sm : staticMonstersDao.getRows(dungeonId)) {
-            staticMonsters.add(new StaticMonsterDto(sm));
+            if (sm != null) {
+                staticMonsters.add(new StaticMonsterDto(sm));
+            }
         }
 
         // create and return a new selected dungeon data dto
