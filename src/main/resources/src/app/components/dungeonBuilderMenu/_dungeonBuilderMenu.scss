@@ -1,4 +1,4 @@
-.control-panel {
+.dungeon-builder-menu {
 	position: absolute;
 	width: $panel-width;
 	height: 100%;
@@ -6,17 +6,20 @@
 	left: $panel-toggle-size + ($panel-toggle-right * 2) - $panel-width;
 	background: $light-navy;
 	transition: left $toggle-speed;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	z-index: 1;
+	
 	body.toggle-open & {
 		left: 0;
 	}
 }
 
-.control-panel__header {
+.dungeon-builder-menu__header {
 	height: 50px;
 	background: $darker-navy;
 }
 
-.control-panel__toggle {
+.dungeon-builder-menu__toggle {
 	position: relative;
 	float: right;
 	top: 12.5px;
@@ -66,22 +69,22 @@
 	}
 }
 
-.control-panel__body {
-	padding: 25px;
+.dungeon-builder-menu__body {
+	padding: 15px 0px;
 	height: calc(100% - 50px);
 }
 
-/* @TODO: rename these */
-.items-container {
-	margin-bottom: 15px;
-	&:last-child {
-		margin-bottom: 0;
-	}
-}
-
-.items-container__item {
-	@extend .grid__item;
-	&--draggable {
-		opacity: 0;
-	}
+.menu-select {
+	padding: 6px 12px;
+    width: 100%;
+    background: $darker-navy;
+    color: $off-white;
+    border: none;
+    margin-bottom: 15px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    cursor: pointer;
+    
+    &--disabled {
+    	cursor: not-allowed;
+    }
 }

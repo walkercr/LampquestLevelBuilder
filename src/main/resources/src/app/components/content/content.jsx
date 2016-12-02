@@ -1,17 +1,142 @@
-import React from 'react'
-import Grid from '../grid/grid.jsx'
-import DeleteMenu from '../deleteMenu/deleteMenu.jsx'
-import Ajax from '../../ajax/ajax.jsx'
+import React, { Component } from 'react';
+import { DragDropContext } from 'react-dnd';
+import update from 'react/lib/update';
+import HTML5Backend from 'react-dnd-html5-backend';
+import Ajax from '../../libs/ajax';
+import DungeonBuilderMenu from '../dungeonBuilderMenu/dungeonBuilderMenu';
+import DungeonGrid from '../dungeonGrid/dungeonGrid';
+import DraggableOverlay from '../draggableOverlay/draggableOverlay';
 
-export default class Content extends React.Component {
-
-    state = {data: null, sessionData: null, selectedDungeonData: null};
-
+class Content extends Component {
+    /**
+     * default state should look like this:
+     *      state = {
+     *          selectedDungeon: -1,
+     *          selectedLevel: -1,
+     *          selectedDungeonData: {
+     *              itemLevels: [],
+     *              roomLevels: [],
+     *              stairsLevels: [],
+     *              staticMonsters: []
+     *          },
+     *          sessionData: {
+     *              dungeons: [],
+     *              rooms: [],
+     *              monsters: [],
+     *              items: [],
+     *          }
+     *      }
+     */
+    state = {
+        selectedDungeon: -1,
+        selectedLevel: -1,
+        // When a dungeon is selected, we query for the existing data in the DB
+        // and populate this object accordingly.
+        // When a new [room, item, monster, staris] is/are dragged onto the grid,
+        // it will be inserted here as well, so this object acts as a 'currentDungeonData'
+        // -esque object.
+        selectedDungeonData: {
+            // itemId field identifies an item's INDEX within the itemLevels array. It is the
+            // primary key in the items table in the DB and begins at 1, so to find an item's position
+            // in this array, it would be at someItemPosition = itemLevels[someItem.itemId - 1].
+            itemLevels: [{
+                dungeonId: 1,
+                itemId: 1,
+                itemX: 1,
+                itemY: 1,
+                itemZ: 2,
+                numberInstances: 1
+            }],
+            roomLevels: [{
+                dungeonId: 1,   // Remove dungeonId from all selectedDungeonData fields bc already known
+                roomId: 1,
+                depth: 1,
+                startX: 0,
+                startY: 0
+            }, {
+                dungeonId: 1,
+                roomId: 1,
+                depth: 1,
+                startX: 3,
+                startY: 3
+            }, {
+                dungeonId: 1,
+                roomId: 2,
+                depth: 1,
+                startX: 6,
+                startY: 6
+            }, {
+                dungeonId: 1,
+                roomId: 2,
+                depth: 2,
+                startX: 0,
+                startY: 0
+            }],
+            stairsLevels: [],
+            staticMonsters: [{
+                dungeonId: 1,
+                monsterId: 1,
+                monsterX: 1,
+                monsterY: 1,
+                depth: 1
+            }]
+        },
+        sessionData: {
+            dungeons: [{
+                dungeonId: 1, 
+                dungeonName: 'Dungeon 1', 
+                dungeonWidth: 15, 
+                dungeonHeight: 15, 
+                dungeonDepth: 3 
+            },{
+                dungeonId: 2, 
+                dungeonName: 'Dungeon 2', 
+                dungeonWidth: 30, 
+                dungeonHeight: 30, 
+                dungeonDepth: 2 
+            }, {
+                dungeonId: 3, 
+                dungeonName: 'Dungeon 3', 
+                dungeonWidth: 45, 
+                dungeonHeight: 45, 
+                dungeonDepth: 1 
+            }],
+            rooms: [{ 
+                roomId: 1, 
+                roomName: 'Room 1', 
+                roomWidth: 3, 
+                roomHeight: 3 
+            }, { 
+                roomId: 2, 
+                roomName: 'Room 2', 
+                roomWidth: 5, 
+                roomHeight: 3 
+            }],
+            monsters: [{
+                monsterId: 1, 
+                monsterName: 'Monster A', 
+                monsterChar: 'A', 
+                monsterColor: 'red' 
+            }],
+            items: [{
+                itemId: 1, 
+                itemName: 'Item X', 
+                itemChar: 'X', 
+                itemColor: 'orange' 
+            }]
+        } 
+    };
+    
+    constructor(props) {
+        super(props);
+        this.handleDungeonChange = this.handleDungeonChange.bind(this);
+        this.handleLevelChange = this.handleLevelChange.bind(this);
+        this.getSessionDataObject = this.getSessionDataObject.bind(this);
+    }
+    
     componentDidMount() {
-        //this.fetch();
-        this.fetchPageLoadData();
-        this.fetchSelectedDungeonData(12);
-        this.postDungeonLevel();
+        // TODO: uncomment!!!
+        //this.fetchPageLoadData();
     }
 
     /**
@@ -24,69 +149,65 @@ export default class Content extends React.Component {
      *     }
      */
     fetchPageLoadData() {
-        Ajax.httpGet('/api/lampquest', (status, response) => {
+        Ajax.httpGet('api/lampquest', (status, response) => {
             if (status === 200) {
                 this.setState({sessionData: JSON.parse(response)});
             } else {
-                alert('error loading session data...');
+                console.warn('error loading session data...');
             }
         });
     }
 
-    /* MARK FOR DELETION */
-    fetch() {
-        Ajax.httpGet('/api/lampquest/1', (status, response) => {
-            if (status === 200) {
-                this.setState({data: JSON.parse(response)});
-            } else {
-                alert('fetch failed: ' + status);
+    handleDungeonChange(e) {
+        this.setState(update(this.state, {
+            selectedDungeon: {
+                $set: Number(e.target.value)
+            },
+            selectedLevel: {
+                $set: -1
             }
-        });
+        }));
     }
-
-    fetchSelectedDungeonData(dungeonId) {
-        Ajax.httpGet('/api/lampquest/' + dungeonId, (status, response) => {
-            if (status == 200) {
-                this.setState({selectedDungeonData: JSON.parse(response)});
-            } else {
-                console.warn("fetch selected dungeon data failed");
+    
+    handleLevelChange(e) {
+        this.setState(update(this.state, {
+            selectedLevel: {
+                $set: Number(e.target.value)
             }
-        });
+        }));
     }
-
-    postDungeonLevel() {
-        let dungeonLevel = {
-            dungeonId: 12,
-            level: 0,
-            rooms: [
-                {roomId: 3, startX: 10, startY: 10},
-                {roomId: 7, startX: 22, startY: 30}
-            ],
-            monsters: [
-                {monsterId: 17, monsterX: 10, monsterY: 12, isBoss: false},
-                {monsterId: 17, monsterX: 23, monsterY: 19, isBoss: true}
-            ],
-            stairs: [
-                {stairsX: 4, stairsY: 8},
-                {stairsX: 22, stairsY: 34}
-            ],
-            items: [
-                {itemId: 1, itemX: 3, itemY: 12, numberInstances: 2}
-            ]
-        };
-
-        Ajax.httpPost('/api/lampquest', dungeonLevel, () => {});
+    
+    getSessionDataObject(dragType, idField) {
+        return this.state.sessionData[dragType + 's'][idField - 1];
     }
-
+    
     render() {
-		return (
-		    <section>
+        const { selectedDungeon, selectedLevel, sessionData, selectedDungeonData } = this.state;
+        // TODO: move grid elements to dungeonGrid and make an inner dragTarget component
+        return (
+            <section className="root">
+                <DungeonBuilderMenu handleDungeonChange={this.handleDungeonChange} 
+                                    handleLevelChange={this.handleLevelChange}
+                                    selectedDungeon={selectedDungeon} 
+                                    selectedLevel={selectedLevel}
+                                    data={sessionData} />
                 <section className="content">
                     <div className="content__header"></div>
-		            <Grid />
-		            <DeleteMenu />
+                    <div className="content__body">
+                        <div className="grid">
+                            <div className="grid__wrapper">
+                                <DungeonGrid selectedDungeonObj={sessionData.dungeons[selectedDungeon]} 
+                                             selectedDungeonData={selectedDungeonData}
+                                             selectedLevel={selectedLevel}
+                                             getSessionDataObject={this.getSessionDataObject} />
+        	                </div>
+                        </div>
+                    </div>
                 </section>
+                <DraggableOverlay />
             </section>
 		);
 	}
 }
+
+export default DragDropContext(HTML5Backend)(Content);

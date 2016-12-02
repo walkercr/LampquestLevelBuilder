@@ -17,3 +17,8 @@
 	background: $light-red;
 	box-shadow: 0 50px $dark-red inset;
 }
+
+.content__body {
+	position: relative;
+	height: calc(100% - #{$header-height});
+}

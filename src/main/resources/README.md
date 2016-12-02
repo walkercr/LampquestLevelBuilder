@@ -42,6 +42,21 @@ __react-dom:__
 > React.js server-side dom renderer.
 
 
+__classnames:__
+
+> Helper utility to make combining class names simpler/cleaner inside React components.
+
+
+__react-dnd:__
+
+> Set of high order components that allows for complex drag and drop interfaces (React Drag N' Drop).
+
+
+__react-dnd-html5-backend:__
+
+> HTML5 drag & drop interface used by ReactDND.
+
+
 # ---- Dev Dependencies ----
 
 __babel-core:__
