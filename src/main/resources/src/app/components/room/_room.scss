@@ -1,0 +1,12 @@
+/** TODO: change 25px to sass variable **/
+.room {
+	color: $off-white;
+	background: rgba($light-red, 0.6);
+	border: 1px solid $off-white;
+	position: relative;
+	min-width: 25px;
+	min-height: 25px;
+	text-align: center;
+	font-weight: bold;
+	line-height: 23px;
+}

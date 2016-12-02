@@ -1,0 +1,29 @@
+.draggable-menu-item {
+	background: $darker-navy;
+	padding: 10px;
+	opacity: 1;
+	margin-bottom: 5px;
+	text-align: center;
+	cursor: pointer;
+	&:last-child {
+		margin-bottom: 0;
+	}
+	
+	&--dragging {
+		opacity: 0.5;
+	}
+}
+
+.draggable-menu-item__title {
+	color: $off-white;
+	font-size: large;
+	margin: 0;
+	text-transform: capitalize;
+}
+
+.draggable-menu-item__subtitle {
+	color: $off-white;
+	font-size: small;
+	margin: 0;
+	text-transform: capitalize;
+}

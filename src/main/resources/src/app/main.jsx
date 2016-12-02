@@ -1,18 +1,12 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Content from './components/content/content.jsx';
+import '../scss/styles.scss';
 
-import ControlPanel from './components/controlPanel/controlPanel.jsx'
-import Content from './components/content/content.jsx'
-
-import '../scss/styles.scss'
-
-class Main extends React.Component {
+class Main extends Component {
 	render() {
 		return (
-			<section>
-		        <ControlPanel />
-				<Content />
-			</section>
+			<Content />
 		);
 	}
 }
