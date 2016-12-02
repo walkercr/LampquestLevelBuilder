@@ -1,12 +1,12 @@
 .monster {
-	background: orange;
+	background: green;
 	border-radius: 50%;
-	width: 25px;
-	height: 25px;
+	width: $cell-size;
+	height: $cell-size;
 	position: relative;
 	color: $off-white;
-	border: 2px solid $off-white;
 	text-align: center;
 	font-weight: bold;
-	line-height: 21px;
+	font-size: 12px;
+	line-height: $cell-size;
 }

@@ -9,12 +9,14 @@ export default class DungeonBuilderMenu extends Component {
         data: PropTypes.object.isRequired,
         handleDungeonChange: PropTypes.func.isRequired,
         selectedDungeon: PropTypes.number.isRequired,
-        selectedLevel: PropTypes.number.isRequired
+        selectedLevel: PropTypes.number.isRequired,
+        handleExport: PropTypes.func.isRequired
     };
     
     render() {
-        const { handleDungeonChange, handleLevelChange, selectedDungeon, selectedLevel } = this.props;
+        const { handleDungeonChange, handleLevelChange, selectedDungeon, selectedLevel, handleExport } = this.props;
         const { dungeons, rooms, monsters, items } = this.props.data;
+        
         const levelClasses = classNames({
             'menu-select': true,
             'menu-select--disabled': selectedDungeon < 0
@@ -22,9 +24,7 @@ export default class DungeonBuilderMenu extends Component {
         
         return (
             <aside className="dungeon-builder-menu">
-                <div className="dungeon-builder-menu__header">
-                    <div className="dungeon-builder-menu__toggle"></div>
-                </div>
+                <div className="dungeon-builder-menu__header">Dungeon Builder</div>
                 <div className="dungeon-builder-menu__body">
                     <select className="menu-select" 
                             value={selectedDungeon} 
@@ -44,9 +44,10 @@ export default class DungeonBuilderMenu extends Component {
                             <option key={'option-' + i} value={i}>Level {i + 1}</option>
                         ) : ''}
                     </select>
-                    <DraggablesMenuPanel menuItems={rooms} menuItemType={newDragTypes.NEW_ROOM} />
-                    <DraggablesMenuPanel menuItems={items} menuItemType={newDragTypes.NEW_ITEM} />
-                    <DraggablesMenuPanel menuItems={monsters} menuItemType={newDragTypes.NEW_MONSTER} />
+                    <DraggablesMenuPanel menuItems={rooms} title="Rooms" menuItemType={newDragTypes.NEW_ROOM} />
+                    <DraggablesMenuPanel menuItems={items} title="Items" menuItemType={newDragTypes.NEW_ITEM} />
+                    <DraggablesMenuPanel menuItems={monsters} title="Monsters" menuItemType={newDragTypes.NEW_MONSTER} />
+                    <button className="export-btn" onClick={handleExport}>Export To Database</button>
                 </div>
             </aside>
         );

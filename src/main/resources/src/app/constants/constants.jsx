@@ -6,7 +6,7 @@ export const newDragTypes = {
     NEW_ROOM: 'new_room',
     NEW_ITEM: 'new_item',
     NEW_MONSTER: 'new_monster',
-    NEW_STAIRS: 'new_stairs'
+    NEW_STAIRS: 'new_stair'
 };
 
 /**
@@ -17,7 +17,7 @@ export const existingDragTypes = {
     ROOM: 'room',
     ITEM: 'item',
     MONSTER: 'monster',
-    STAIRS: 'stairs'
+    STAIRS: 'stair'
 };
 
 /**
@@ -25,4 +25,4 @@ export const existingDragTypes = {
  * grid cells. ex: a room has a width: 3, height: 5, applying the unitSize
  * we get width: 3 * 25 px, height: 5 * 25 px.
  */
-export const unitSize = 25;
+export const unitSize = 15;

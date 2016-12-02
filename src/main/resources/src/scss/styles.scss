@@ -19,11 +19,6 @@
 @import '../app/components/draggableOverlay/draggableOverlay';
 
 /**
- * DroppableGridItem
- **/
-@import '../app/components/droppableGridItem/droppableGridItem';
-
-/**
  * Room
  * Monster
  * Item
@@ -32,7 +27,7 @@
 @import '../app/components/room/room';
 @import '../app/components/monster/monster';
 @import '../app/components/item/item';
-//@import '../app/components/stairs/stairs';
+@import '../app/components/stairs/stairs';
 
 /**
  * Content
@@ -43,8 +38,3 @@
  * DungeonGrid
  **/
 @import '../app/components/dungeonGrid/dungeonGrid';
-
-/**
- * DeleteMenu 
- **/
-@import '../app/components/deleteMenu/deleteMenu';

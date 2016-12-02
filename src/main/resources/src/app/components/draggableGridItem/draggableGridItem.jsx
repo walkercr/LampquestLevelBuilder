@@ -3,18 +3,17 @@ import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import classNames from 'classnames';
 import { existingDragTypes, unitSize } from '../../constants/constants';
+import Item from '../item/item';
 import Room from '../room/room';
+import Monster from '../monster/monster';
+import Stairs from '../stairs/stairs';
 
 const draggableSource = {
     beginDrag(props, monitor, component) {
-        // TODO: this is ugly and bad. REFACTOR.
-        const { data, position } = props.gridItem;
-        
         return {
             index: props.index,
-            roomWidth: data.roomWidth,
-            roomHeight: data.roomHeight,
-            position: position
+            gridItem: props.gridItem,
+            itemData: props.itemData
         };
     }
 };
@@ -35,7 +34,8 @@ class DraggableGridItem extends Component {
         dragType: PropTypes.oneOf(Object.values(existingDragTypes)).isRequired,
         gridItem: PropTypes.object.isRequired,
         index: PropTypes.number.isRequired,
-        itemData: PropTypes.object.isRequired
+        itemData: PropTypes.object.isRequired,
+        deleteItem: PropTypes.func.isRequired
     };
     
     computePosition() {
@@ -59,6 +59,7 @@ class DraggableGridItem extends Component {
                 x = gridItem.monsterX;
                 y = gridItem.monsterY;
         }
+        
         return {
             transform: `translate3d(${x * unitSize}px, ${y * unitSize}px, 0)`
         };
@@ -70,21 +71,17 @@ class DraggableGridItem extends Component {
         
         switch(this.props.dragType) {
             case existingDragTypes.ITEM:
-                el = (<div>Item</div>);
+                el = (<Item />);
                 break;
             case existingDragTypes.ROOM:
                 el = (<Room width={itemData.roomWidth * unitSize} 
                             height={itemData.roomHeight * unitSize} />);
                 break;
             case existingDragTypes.STAIRS:
-                el = (<div>Stairs</div>);
+                el = (<Stairs />);
                 break;
             case existingDragTypes.MONSTER:
-                el = (<div>Monster</div>);
-                break;
-            default:
-                console.error('invalid dragType specified: '
-                        + 'draggableGridItem.jsx - renderGridItem()');
+                el = (<Monster />);
         }
         
         return el;
@@ -96,6 +93,26 @@ class DraggableGridItem extends Component {
         });
     }
     
+    onRightClick(e) {
+        e.preventDefault();
+        const { dragType, deleteItem, index } = this.props;
+        let listName;
+        switch(dragType) {
+            case existingDragTypes.ITEM:
+                listName = 'itemLevels';
+                break;
+            case existingDragTypes.ROOM:
+                listName = 'roomLevels';
+                break;
+            case existingDragTypes.STAIRS:
+                listName = 'stairsLevels';
+                break;
+            case existingDragTypes.MONSTER:
+                listName = 'staticMonsters';
+        }
+        this.props.deleteItem(listName, index);
+    }
+    
     render() {
         const { connectDragSource, isDragging } = this.props;
         const classes = classNames({
@@ -104,7 +121,7 @@ class DraggableGridItem extends Component {
         });
         
         return connectDragSource(
-            <div style={this.computePosition()} className={classes}>
+            <div style={this.computePosition()} className={classes} onContextMenu={this.onRightClick.bind(this)}>
                 {this.renderGridItem()}
             </div>
         );

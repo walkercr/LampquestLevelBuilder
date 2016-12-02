@@ -4,6 +4,7 @@ import { newDragTypes, existingDragTypes, unitSize } from '../../constants/const
 import Room from '../room/room';
 import Monster from '../monster/monster';
 import Item from '../item/item';
+import Stairs from '../stairs/stairs';
 
 function collect(monitor) {
     return {
@@ -26,7 +27,7 @@ class DraggableOverlay extends Component {
     };
     
     computePosition() {
-        const { currentOffset, dragType } = this.props;
+        const { currentOffset } = this.props;
         if (!currentOffset) {
             return {
                 display: 'none'
@@ -41,11 +42,13 @@ class DraggableOverlay extends Component {
     
     renderDragLayer() {
         const { dragItem, dragType } = this.props;
-        
         switch(dragType) {
             case newDragTypes.NEW_ROOM:
+                return (<Room width={dragItem.roomWidth * unitSize} 
+                              height={dragItem.roomHeight * unitSize} />);
             case existingDragTypes.ROOM:
-                return (<Room width={dragItem.roomWidth * unitSize} height={dragItem.roomHeight * unitSize} />);
+                return (<Room width={dragItem.itemData.roomWidth * unitSize} 
+                              height={dragItem.itemData.roomHeight * unitSize} />);
             case newDragTypes.NEW_MONSTER:
             case existingDragTypes.MONSTER:
                 return (<Monster />);
@@ -54,11 +57,8 @@ class DraggableOverlay extends Component {
                 return (<Item />);
             case newDragTypes.NEW_STAIRS:
             case existingDragTypes.STAIRS:
-                return (<div>STAIRS</div>);
-            default:
-                console.warn('invalid draggable-menu-item type.');
-                return (<div>UNKNOWN</div>);
-            }
+                return (<Stairs />);
+        }
     }
     
     render() {

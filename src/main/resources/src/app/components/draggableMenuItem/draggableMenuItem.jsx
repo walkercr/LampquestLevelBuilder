@@ -7,14 +7,6 @@ import { newDragTypes } from '../../constants/constants';
 const draggableSource = {
     beginDrag(props, monitor, component) {
         return props.data;
-    },
-    endDrag(props, monitor, component) {
-        const item = monitor.getItem();
-        const dropResult = monitor.getDropResult();
-        // TODO: remove this ish
-        if (dropResult) {
-          //window.alert(`You dropped a(n) ${monitor.getItemType()} into ${dropResult.name}!`);
-        }
     }
 };
 
@@ -52,7 +44,7 @@ class DraggableMenuItem extends Component {
             case newDragTypes.NEW_MONSTER:
                 return data.monsterName;
             case newDragTypes.NEW_STAIRS:
-                return 'stairs';
+                return 'some stairs';
         }
     }
     

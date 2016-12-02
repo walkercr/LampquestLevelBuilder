@@ -4,10 +4,13 @@
 }
 
 .grid__wrapper {
-    overflow: hidden;
+    overflow: scroll;
 	margin: auto;
 	text-align: center;
 	height: 100%;
+	&::-webkit-scrollbar {
+		width: 0px;
+	}
 }
 
 .grid__container {
@@ -23,12 +26,7 @@
 }
 
 .grid__row {
-	// set height so that border does not append to row's
-	// size.
 	height: $cell-size;
-	// remove vertical spacing added by inline-block in
-	// children cells so there is no space between each
-	// row.
 	white-space: nowrap;
 	line-height: 0;
 	&:last-child {

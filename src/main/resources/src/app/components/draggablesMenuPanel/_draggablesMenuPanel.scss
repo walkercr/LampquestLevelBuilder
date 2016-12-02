@@ -1,5 +1,5 @@
 .draggables-menu-panel {
-	margin-bottom: 15px;
+	margin-bottom: 5px;
 	&:last-child {
 		margin-bottom: 0;
 	}
@@ -9,6 +9,8 @@
 	background: $darker-navy;
 	padding: 10px 15px;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+	
 }
 
 .draggables-menu-panel__title {
@@ -22,4 +24,9 @@
 
 .draggables-menu-panel__body {
 	padding: 10px 15px;
+	overflow-y: scroll;
+	max-height: 150px;
+	&::-webkit-scrollbar {
+		width: 0px;
+	}
 }
