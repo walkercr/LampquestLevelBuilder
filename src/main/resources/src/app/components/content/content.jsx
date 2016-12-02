@@ -8,26 +8,97 @@ import DungeonGrid from '../dungeonGrid/dungeonGrid';
 import DraggableOverlay from '../draggableOverlay/draggableOverlay';
 
 class Content extends Component {
+    /**
+     * default state should look like this:
+     *      state = {
+     *          selectedDungeon: -1,
+     *          selectedLevel: -1,
+     *          selectedDungeonData: {
+     *              itemLevels: [],
+     *              roomLevels: [],
+     *              stairsLevels: [],
+     *              staticMonsters: []
+     *          },
+     *          sessionData: {
+     *              dungeons: [],
+     *              rooms: [],
+     *              monsters: [],
+     *              items: [],
+     *          }
+     *      }
+     */
     state = {
         selectedDungeon: -1,
+        selectedLevel: -1,
+        // When a dungeon is selected, we query for the existing data in the DB
+        // and populate this object accordingly.
+        // When a new [room, item, monster, staris] is/are dragged onto the grid,
+        // it will be inserted here as well, so this object acts as a 'currentDungeonData'
+        // -esque object.
+        selectedDungeonData: {
+            // itemId field identifies an item's INDEX within the itemLevels array. It is the
+            // primary key in the items table in the DB and begins at 1, so to find an item's position
+            // in this array, it would be at someItemPosition = itemLevels[someItem.itemId - 1].
+            itemLevels: [{
+                dungeonId: 1,
+                itemId: 1,
+                itemX: 1,
+                itemY: 1,
+                itemZ: 2,
+                numberInstances: 1
+            }],
+            roomLevels: [{
+                dungeonId: 1,   // Remove dungeonId from all selectedDungeonData fields bc already known
+                roomId: 1,
+                depth: 1,
+                startX: 0,
+                startY: 0
+            }, {
+                dungeonId: 1,
+                roomId: 1,
+                depth: 1,
+                startX: 3,
+                startY: 3
+            }, {
+                dungeonId: 1,
+                roomId: 2,
+                depth: 1,
+                startX: 6,
+                startY: 6
+            }, {
+                dungeonId: 1,
+                roomId: 2,
+                depth: 2,
+                startX: 0,
+                startY: 0
+            }],
+            stairsLevels: [],
+            staticMonsters: [{
+                dungeonId: 1,
+                monsterId: 1,
+                monsterX: 1,
+                monsterY: 1,
+                depth: 1
+            }]
+        },
         sessionData: {
             dungeons: [{
                 dungeonId: 1, 
                 dungeonName: 'Dungeon 1', 
-                dungeonWidth: 10, 
-                dungeonHeight: 10, 
+                dungeonWidth: 15, 
+                dungeonHeight: 15, 
                 dungeonDepth: 3 
             },{
                 dungeonId: 2, 
                 dungeonName: 'Dungeon 2', 
-                dungeonWidth: 20, 
-                dungeonHeight: 20, 
+                dungeonWidth: 30, 
+                dungeonHeight: 30, 
                 dungeonDepth: 2 
             }, {
                 dungeonId: 3, 
                 dungeonName: 'Dungeon 3', 
-                dungeonWidth: 30, 
-                dungeonHeight: 30, 
+                dungeonWidth: 45, 
+                dungeonHeight: 45, 
                 dungeonDepth: 1 
             }],
             rooms: [{ 
@@ -59,6 +130,8 @@ class Content extends Component {
     constructor(props) {
         super(props);
         this.handleDungeonChange = this.handleDungeonChange.bind(this);
+        this.handleLevelChange = this.handleLevelChange.bind(this);
+        this.getSessionDataObject = this.getSessionDataObject.bind(this);
     }
     
     componentDidMount() {
@@ -88,27 +161,45 @@ class Content extends Component {
     handleDungeonChange(e) {
         this.setState(update(this.state, {
             selectedDungeon: {
-                $set: e.target.value
+                $set: Number(e.target.value)
+            },
+            selectedLevel: {
+                $set: -1
             }
         }));
     }
     
+    handleLevelChange(e) {
+        this.setState(update(this.state, {
+            selectedLevel: {
+                $set: Number(e.target.value)
+            }
+        }));
+    }
+    
+    getSessionDataObject(dragType, idField) {
+        return this.state.sessionData[dragType + 's'][idField - 1];
+    }
+    
     render() {
-        const rows = 0, cols = 0;
-        const { selectedDungeon, sessionData } = this.state;
-        const dungeon = selectedDungeon >= 0 
-                            ? sessionData.dungeons[selectedDungeon]
-                            : { dungeonName: '', dungeonWidth: 0, dungeonHeight: 0 };
+        const { selectedDungeon, selectedLevel, sessionData, selectedDungeonData } = this.state;
         // TODO: move grid elements to dungeonGrid and make an inner dragTarget component
         return (
             <section className="root">
-                <DungeonBuilderMenu handleDungeonChange={this.handleDungeonChange} data={sessionData} />
+                <DungeonBuilderMenu handleDungeonChange={this.handleDungeonChange} 
+                                    handleLevelChange={this.handleLevelChange}
+                                    selectedDungeon={selectedDungeon} 
+                                    selectedLevel={selectedLevel}
+                                    data={sessionData} />
                 <section className="content">
                     <div className="content__header"></div>
                     <div className="content__body">
                         <div className="grid">
                             <div className="grid__wrapper">
-                                <DungeonGrid dungeon={dungeon} />
+                                <DungeonGrid selectedDungeonObj={sessionData.dungeons[selectedDungeon]} 
+                                             selectedDungeonData={selectedDungeonData}
+                                             selectedLevel={selectedLevel}
+                                             getSessionDataObject={this.getSessionDataObject} />
         	                </div>
                         </div>
                     </div>

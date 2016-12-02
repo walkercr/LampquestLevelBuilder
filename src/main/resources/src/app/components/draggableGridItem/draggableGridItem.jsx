@@ -34,39 +34,60 @@ class DraggableGridItem extends Component {
         isDragging: PropTypes.bool.isRequired,
         dragType: PropTypes.oneOf(Object.values(existingDragTypes)).isRequired,
         gridItem: PropTypes.object.isRequired,
-        index: PropTypes.number.isRequired
+        index: PropTypes.number.isRequired,
+        itemData: PropTypes.object.isRequired
     };
     
-    constructor(props) {
-        super(props);
-        this.state = {
-            position: props.position 
-        };
-    }
-    
     computePosition() {
-        const { x, y } = this.props.gridItem.position;
+        const { gridItem } = this.props;
+        let x = 0, y = 0;
+        
+        switch(this.props.dragType) {
+            case existingDragTypes.ITEM:
+                x = gridItem.itemX;
+                y = gridItem.itemY;
+                break;
+            case existingDragTypes.ROOM:
+                x = gridItem.startX;
+                y = gridItem.startY;
+                break;
+            case existingDragTypes.STAIRS:
+                x = gridItem.stairsX;
+                y = gridItem.stairsY;
+                break;
+            case existingDragTypes.MONSTER:
+                x = gridItem.monsterX;
+                y = gridItem.monsterY;
+        }
         return {
             transform: `translate3d(${x * unitSize}px, ${y * unitSize}px, 0)`
         };
     }
     
     renderGridItem() {
+        const { itemData } = this.props;
+        let el = (<div></div>);
+        
         switch(this.props.dragType) {
-            case existingDragTypes.ROOM:
-                const { roomWidth, roomHeight } = this.props.gridItem.data;
-                return (
-                    <Room width={roomWidth * unitSize} height={roomHeight * unitSize} />
-                );
-            case existingDragTypes.MONSTER:
-                break;
             case existingDragTypes.ITEM:
+                el = (<div>Item</div>);
+                break;
+            case existingDragTypes.ROOM:
+                el = (<Room width={itemData.roomWidth * unitSize} 
+                            height={itemData.roomHeight * unitSize} />);
                 break;
             case existingDragTypes.STAIRS:
+                el = (<div>Stairs</div>);
+                break;
+            case existingDragTypes.MONSTER:
+                el = (<div>Monster</div>);
                 break;
             default:
-                console.warn('Invalid dragType in renderGridItem() - draggableGridItem.jsx');
+                console.error('invalid dragType specified: '
+                        + 'draggableGridItem.jsx - renderGridItem()');
         }
+        
+        return el;
     }
     
     componentDidMount() {

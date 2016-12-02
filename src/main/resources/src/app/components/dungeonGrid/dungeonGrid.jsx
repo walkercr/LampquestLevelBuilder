@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { DropTarget } from 'react-dnd';
 import update from 'react/lib/update';
 import { findDOMNode } from 'react-dom';
-import classNames from 'classnames';
 import { newDragTypes, existingDragTypes, unitSize } from '../../constants/constants';
 import DraggableGridItem from '../draggableGridItem/draggableGridItem';
 
@@ -39,19 +38,24 @@ class DungeonGrid extends Component {
     static propTypes = {
         connectDropTarget: PropTypes.func.isRequired,
         canDrop: PropTypes.bool.isRequired,
-        dungeon: PropTypes.object.isRequired
+        selectedDungeonObj: PropTypes.object.isRequired,
+        selectedDungeonData: PropTypes.objectOf(PropTypes.array).isRequired,
+        selectedLevel: PropTypes.number.isRequired,
+        getSessionDataObject: PropTypes.func.isRequired
     };
     
-    state = {
-        offset: {
-            top: 0,
-            left: 0
-        },
-        rooms: []
+    static defaultProps = {
+        selectedDungeonObj: {
+            dungeonId: -1, 
+            dungeonName: '', 
+            dungeonWidth: 0, 
+            dungeonHeight: 0, 
+            dungeonDepth: 0
+        }
     };
     
     addRoom(data, offset) {
-        const { top, left } = this.state.offset;
+        const { top, left } = this.getContainerOffset();
         const room = {
             data: data,
             position: {
@@ -68,7 +72,7 @@ class DungeonGrid extends Component {
     }
     
     moveRoom(index, offset) {
-        const { top, left } = this.state.offset;
+        const { top, left } = this.getContainerOffset();
         const newPos = {
             x: Math.round((offset.x - left) / unitSize), 
             y: Math.round((offset.y - top) / unitSize)
@@ -93,50 +97,56 @@ class DungeonGrid extends Component {
         }));
     }
     
-    renderRow(i) {
-        const gridCells = [];
-        const { dungeonHeight: columns } = this.props.dungeon;
-        for (let j = 0; j < columns; j++) {
-            gridCells.push(<div key={'cell-' + j} className="grid__cell"></div>);
+    getContainerOffset() {
+        return findDOMNode(this).getBoundingClientRect();
+    }
+    
+    filterSelectedLevelData(listName, lvlField, dragType) {
+        const draggableGridItems = [];
+        const arr = this.props.selectedDungeonData[listName];
+        const { getSessionDataObject } = this.props;
+        
+        for (let i = 0, key = 0; i < arr.length; i++) {
+            if (arr[i][lvlField] == this.props.selectedLevel) {
+                let itemData = getSessionDataObject(dragType, arr[i][dragType + 'Id']);
+                draggableGridItems.push(
+                        <DraggableGridItem key={dragType + key++} 
+                                           index={i}
+                                           gridItem={arr[i]} 
+                                           dragType={dragType}
+                                           itemData={itemData} />
+                );
+            }
         }
         
-        return (
-            <div key={'row-' + i} className="grid__row">
-                {gridCells}
-            </div>
-        );
+        return draggableGridItems;
     }
     
-    updateContainerOffset() {
-        let { top, left } = findDOMNode(this).getBoundingClientRect();
-        this.setState({offset: { top: top, left: left } });
-    }
-    
-    componentDidMount() {
-        this.updateContainerOffset();
-        window.addEventListener('resize', this.updateContainerOffset.bind(this));
-    }
-    
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateContainerOffset.bind(this));
+    getSelectedLevelData() {
+        const { ITEM, ROOM, STAIRS, MONSTER } = existingDragTypes;
+        
+        return {
+            itemLevels: this.filterSelectedLevelData('itemLevels', 'itemZ', ITEM),
+            roomLevels: this.filterSelectedLevelData('roomLevels', 'depth', ROOM),
+            stairsLevels: this.filterSelectedLevelData('stairsLevels', 'stairsZ', STAIRS),
+            staticMonsters: this.filterSelectedLevelData('staticMonsters', 'depth', MONSTER)
+        };
     }
     
     render() {
-		const gridRows = [];
-		const { dungeonWidth: rows } = this.props.dungeon;
-		
-		for (let i = 0; i < rows; i++) {
-		    gridRows.push(this.renderRow(i));
-		}
-		
 		const { connectDropTarget } = this.props;
+		const { dungeonWidth: rows, dungeonHeight: cols } = this.props.selectedDungeonObj;
 	    
-	    return connectDropTarget(
+		return connectDropTarget(
             <div className="grid__container">
-	            {this.state.rooms.map((room, i) => 
-                    <DraggableGridItem key={'item-' + i} index={i} gridItem={room} dragType={existingDragTypes.ROOM} />
-                )}
-	            {gridRows}
+	            {this.getSelectedLevelData().roomLevels}
+	            {[...Array(rows)].map((x, i) => 
+	                <div key={'row-' + i} className="grid__row">
+    	                {[...Array(cols)].map((y, j) =>
+    	                    <div key={'cell-' + j} className="grid__cell"></div>
+    	                )}
+    	            </div>
+	            )}
             </div>
 		);
 	}
