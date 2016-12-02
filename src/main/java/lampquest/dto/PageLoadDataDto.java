@@ -1,6 +1,7 @@
 package lampquest.dto;
 
 import lampquest.model.Dungeon;
+import lampquest.model.Item;
 import lampquest.model.Monster;
 import lampquest.model.Room;
 import java.util.List;
@@ -15,20 +16,21 @@ import java.util.List;
 public class PageLoadDataDto {
 
     /**
-     * list of  available dungeons
+     * list of available dungeons
      */
     private List<Dungeon> dungeons;
     /**
-     * list of  available rooms
+     * list of available rooms
      */
     private List<Room> rooms;
     /**
-     * list of  available monsters
+     * list of available monsters
      */
     private List<Monster> monsters;
-
-    /* Need to add list of Items when Items entity and DAO are written */
-    // private List<Item> items;
+    /**
+     * list of available items
+     */
+    private List<Item> items;
 
     /**
      * Constructs a page load data DTO.
@@ -39,10 +41,12 @@ public class PageLoadDataDto {
      */
     public PageLoadDataDto(List<Dungeon> dungeons,
                            List<Room> rooms,
-                           List<Monster> monsters) {
+                           List<Monster> monsters,
+                           List<Item> items) {
         this.dungeons = dungeons;
         this.rooms = rooms;
         this.monsters = monsters;
+        this.items = items;
     }
 
     /**
@@ -70,5 +74,14 @@ public class PageLoadDataDto {
      */
     public List<Monster> getMonsters() {
         return monsters;
+    }
+
+    /**
+     * Returns the available items.
+     *
+     * @return list of available items
+     */
+    public List<Item> getItems() {
+        return items;
     }
 }

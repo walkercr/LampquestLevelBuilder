@@ -5,6 +5,7 @@ import lampquest.dao.IDungeonsDao;
 import lampquest.dao.ILampquestDao;
 import lampquest.dto.PageLoadDataDto;
 import lampquest.model.Dungeon;
+import lampquest.model.Item;
 import lampquest.model.Monster;
 import lampquest.model.Room;
 
@@ -28,6 +29,10 @@ public class LampquestService implements ILampquestService {
      * Data access object for the Monsters table
      */
     private ILampquestDao<Monster> monstersDao;
+    /**
+     * Data access object for the Items table
+     */
+    private ILampquestDao<Item> itemsDao;
 
     /**
      * Constructs a new LampquestService with the required data access objects.
@@ -38,10 +43,12 @@ public class LampquestService implements ILampquestService {
      */
     public LampquestService(IDungeonsDao dungeonsDao,
                             ILampquestDao<Room> roomsDao,
-                            ILampquestDao<Monster> monstersDao) {
+                            ILampquestDao<Monster> monstersDao,
+                            ILampquestDao<Item> itemsDao) {
         this.dungeonsDao = dungeonsDao;
         this.roomsDao = roomsDao;
         this.monstersDao = monstersDao;
+        this.itemsDao = itemsDao;
     }
 
     /**
@@ -55,10 +62,9 @@ public class LampquestService implements ILampquestService {
         List<Dungeon> dungeons = dungeonsDao.getAllRows();
         List<Room> rooms = roomsDao.getAllRows();
         List<Monster> monsters = monstersDao.getAllRows();
+        List<Item> items = itemsDao.getAllRows();
 
-        /* Need to add items when task 12 is finished */
-
-        return new PageLoadDataDto(dungeons, rooms, monsters);
+        return new PageLoadDataDto(dungeons, rooms, monsters, items);
     }
 }
 

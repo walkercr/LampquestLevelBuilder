@@ -54,8 +54,9 @@ public class DBConfig {
         bean.setPackagesToScan("lampquest.model");
         bean.setAnnotatedClasses(
                 Dungeon.class,
-                Monster.class,
                 Room.class,
+                Monster.class,
+                Item.class,
                 RoomLevel.class,
                 StairsLevel.class,
                 StaticMonster.class,
@@ -75,7 +76,7 @@ public class DBConfig {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/lampquest2_0");
         dataSource.setUsername("root");
-        dataSource.setPassword("CSI3335");
+        dataSource.setPassword("Caiden_14");
         return dataSource;
     }
 
@@ -112,6 +113,26 @@ public class DBConfig {
     }
 
     /**
+     * Returns a data access object for the Monsters table.
+     * @return Monsters data access object
+     * @throws IOException if an I/O error occurs
+     */
+    @Bean
+    public ILampquestDao<Monster> monstersDao() throws IOException {
+        return new LampquestDao<>(sessionFactory(), Monster.class);
+    }
+
+    /**
+     * Returns a data access object for the Items table.
+     * @return Items data access object
+     * @throws IOException if an I/O error occurs
+     */
+    @Bean
+    public ILampquestDao<Item> itemsDao() throws IOException {
+        return new LampquestDao<>(sessionFactory(), Item.class);
+    }
+
+    /**
      * Returns a data access object for the RoomsLevels table.
      * @return RoomsLevels data access object
      * @throws IOException if an I/O error occurs
@@ -125,16 +146,6 @@ public class DBConfig {
 
         return new LampquestLevelsDao<>(sessionFactory(), RoomLevel.class,
                                         mappedEntity, dungeonIdRef, levelRef);
-    }
-
-    /**
-     * Returns a data access object for the Monsters table.
-     * @return Monsters data access object
-     * @throws IOException if an I/O error occurs
-     */
-    @Bean
-    public ILampquestDao<Monster> monstersDao() throws IOException {
-        return new LampquestDao<>(sessionFactory(), Monster.class);
     }
 
     /**
@@ -195,7 +206,12 @@ public class DBConfig {
      */
     @Bean
     public ILampquestService lampquestService() throws IOException {
-        return new LampquestService(dungeonsDao(), roomsDao(), monstersDao());
+        return new LampquestService(
+                dungeonsDao(),
+                roomsDao(),
+                monstersDao(),
+                itemsDao()
+        );
     }
 
     /**
